@@ -14,9 +14,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
+require("keybinds").setup()
 
-
-vim.keymap.set('n', '<leader>/', ':noh<CR>')
+vim.keymap.set("n", "<leader>/", ":noh<CR>")
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
@@ -30,6 +30,6 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
-vim.opt.foldmethod = 'syntax'
+vim.opt.foldmethod = "syntax"
 vim.opt.foldnestmax = 1
 vim.opt.foldlevel = 1
