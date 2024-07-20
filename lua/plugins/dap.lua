@@ -9,8 +9,6 @@ return {
 			require("dap-vscode-js").setup({
 				adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
 				debugger_path = "/home/joe/.dotfiles/nvim/.config/nvim/vscode-js-debug",
-				log_file_path = "./logs.log",
-				log_file_level = vim.log.levels.TRACE,
 			})
 
 			for _, language in ipairs({ "typescript", "javascript" }) do

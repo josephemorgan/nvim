@@ -7,72 +7,73 @@ return {
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true })
 		vim.keymap.set("n", "<f34>", telescope.buffers, { silent = true })
 
-		wk.register({
+		wk.add({
+			{ "gd", vim.lsp.buf.declaration, desc = "[d]eclaration" },
+			{ "gD", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
+			{ "gI", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
+		})
+
+		wk.add({
 			-- Files
-			f = {
-				name = "[f]iles",
-				t = { require("nvim-tree.api").tree.open, "Toggle [t]ree" },
-				g = { require("telescope.builtin").live_grep, "[g]rep File Contents" },
-			},
+			{ "<leader>f", group = "[F]iles" },
+            { "<leader>fg", require("telescope.builtin").live_grep, desc = "[g]rep File Contents" },
+			{ "<leader>ft", require("nvim-tree.api").tree.open, desc = "Toggle [t]ree" },
 
 			-- Help
-			h = {
-				name = "[h]elp",
-				h = { require("telescope.builtin").help_tags, "Search [h]elp" },
-				m = { require("telescope.builtin").man_pages, "Search [m]anpages" },
-			},
+			{ "<leader>h", group = "[H]elp" },
+			{ "<leader>hh", require("telescope.builtin").help_tags, desc = "Search [h]elp" },
+			{ "<leader>hm", require("telescope.builtin").man_pages, desc = "Search [m]anpages" },
 
 			-- LSP
-			l = {
-				name = "[L]anguage Server",
-				d = { vim.diagnostic.open_float, "Open [d]iagnostics" },
-				s = { require("telescope.builtin").lsp_document_symbols, "Document [s]ymbols" },
-				l = { require("telescope.builtin").diagnostics, "[l]ist Diagnostics" },
-				h = { vim.lsp.buf.signature_help, "Signature [h]elp" },
-				r = { vim.lsp.buf.rename, "[r]ename" },
-				a = { vim.lsp.buf.code_action, "Code [a]ction" },
-				R = { require("telescope.builtin").lsp_references, "Show [R]eferences" },
-				g = {
-					name = "[g]o to",
-					p = { vim.diagnostic.goto_previous, "[p]revious Diagnostic" },
-					n = { vim.diagnostic.goto_next, "[n]ext Diagnostic" },
-					d = { vim.lsp.buf.declaration, "[d]eclaration" },
-					D = { require("telescope.builtin").lsp_definitions, "[D]efinitions" },
-					i = {
-						require("telescope.builtin").lsp_implementations,
-						"[i]mplementations",
-					},
-				},
+			{ "<leader>l", group = "[L]anguage Server" },
+			{ "<leader>ld", vim.diagnostic.open_float, desc = "Open [d]iagnostics" },
+			{ "<leader>ls", require("telescope.builtin").lsp_document_symbols, desc = "Document [s]ymbols" },
+			{ "<leader>ll", require("telescope.builtin").diagnostics, desc = "[l]ist Diagnostics" },
+			{ "<leader>lh", vim.lsp.buf.signature_help, desc = "Signature [h]elp" },
+			{ "<leader>lr", vim.lsp.buf.rename, desc = "[r]ename" },
+			{ "<leader>la", vim.lsp.buf.code_action, desc = "Code [a]ction" },
+			{ "<leader>lR", require("telescope.builtin").lsp_references, desc = "Show [R]eferences" },
+			{ "<leader>lp", vim.diagnostic.goto_previous, desc = "[p]revious Diagnostic" },
+			{ "<leader>ln", vim.diagnostic.goto_next, desc = "[n]ext Diagnostic" },
+			{
+				{ "<leader>g", group = "[g]o to" },
+				{ "<leader>gp", vim.diagnostic.goto_previous, desc = "[p]revious Diagnostic" },
+				{ "<leader>gn", vim.diagnostic.goto_next, desc = "[n]ext Diagnostic" },
+				{ "<leader>gd", vim.lsp.buf.declaration, desc = "[d]eclaration" },
+				{ "<leader>gD", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
+				{ "<leader>gi", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
 			},
 
 			-- DAP
-			d = {
-				name = "[d]ebug",
-				c = { require("dap").continue, "[c]ontinue (or start)" },
-				o = { require("dap").step_over, "Step [o]ver" },
-				i = { require("dap").step_into, "Step [i]nto" },
-				O = { require("dap").step_out, "Step [O]ut" },
-				b = { require("dap").toggle_breakpoint, "Toggle [b]reakpoint" },
-				B = { require("dap").set_breakpoint, "Set [B]reakpoint" },
-				r = { require("dap").repl.open, "Open [r]EPL" },
-				R = { require("dap").restart(), "[R]estart" },
-				h = { require("dap.ui.widgets").hover, "[h]over" },
-				p = { require("dap.ui.widgets").preview, "[p]review" },
-				f = {
+			{
+				{ "<leader>d", group = "[d]ebug" },
+				{ "<leader>dc", require("dap").continue, desc = "[c]ontinue (or start)" },
+				{ "<leader>do", require("dap").step_over, desc = "Step [o]ver" },
+				{ "<leader>di", require("dap").step_into, desc = "Step [i]nto" },
+				{ "<leader>dO", require("dap").step_out, desc = "Step [O]ut" },
+				{ "<leader>db", require("dap").toggle_breakpoint, desc = "Toggle [b]reakpoint" },
+				{ "<leader>dB", require("dap").set_breakpoint, desc = "Set [B]reakpoint" },
+				{ "<leader>dr", require("dap").repl.open, desc = "Open [r]EPL" },
+				{ "<leader>dR", require("dap").restart, desc = "[R]estart" },
+				{ "<leader>dh", require("dap.ui.widgets").hover, desc = "[h]over" },
+				{ "<leader>dp", require("dap.ui.widgets").preview, desc = "[p]review" },
+				{
+					"<leader>df",
 					function()
 						local widgets = require("dap.ui.widgets")
 						widgets.centered_float(widgets.frames)
 					end,
-					"[f]rames",
+					desc = "[f]rames",
 				},
-				s = {
+				{
+					"<leader>ds",
 					function()
 						local widgets = require("dap.ui.widgets")
 						widgets.centered_float(widgets.scopes)
 					end,
-					"[s]copes",
+					desc = "[s]copes",
 				},
 			},
-		}, { prefix = "<leader>" })
+		})
 	end,
 }

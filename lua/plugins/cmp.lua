@@ -80,7 +80,11 @@ return {
 		require("neodev").setup({})
 
 		local servers = {
-			clangd = {},
+			clangd = {
+				init_options = {
+					compilationDatabasePath = "./",
+				},
+			},
 			pyright = {},
 			tsserver = {},
 			lua_ls = {},
