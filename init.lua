@@ -16,7 +16,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 require("keybinds").setup()
 
-vim.keymap.set("n", "<leader>/", ":noh<CR>")
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true

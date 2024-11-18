@@ -2,9 +2,17 @@ return {
 	"mhartington/formatter.nvim",
 	lazy = false,
 	config = function()
+		local augroup = vim.api.nvim_create_augroup
+		local autocmd = vim.api.nvim_create_autocmd
+		augroup("__formatter__", { clear = true })
+		autocmd("BufWritePost", {
+			group = "__formatter__",
+			command = ":FormatWrite",
+		})
+
 		require("formatter").setup({
 			logging = true,
-			log_level = vim.log.levels.WARN,
+			log_level = vim.log.levels.TRACE,
 			filetype = {
 				lua = {
 					require("formatter.filetypes.lua").stylua,
@@ -12,18 +20,19 @@ return {
 				typescript = {
 					require("formatter.filetypes.typescript").prettier,
 				},
-				["*"] = {
-					require("formatter.filetypes.any").remove_trailing_whitespace,
+				c = {
+					require("formatter.filetypes.c").clangformat,
 				},
+				dart = {
+					require("formatter.filetypes.dart").dartformat,
+				},
+				jsonc = {
+					require("formatter.filetypes.json").jq,
+				},
+				-- ["*"] = {
+				-- 	require("formatter.filetypes.any").remove_trailing_whitespace,
+				-- },
 			},
-		})
-
-		local augroup = vim.api.nvim_create_augroup
-		local autocmd = vim.api.nvim_create_autocmd
-		augroup("__formatter__", { clear = true })
-		autocmd("BufWritePost", {
-			group = "__formatter__",
-			command = ":FormatWrite",
 		})
 	end,
 }

@@ -3,21 +3,72 @@ return {
 		local wk = require("which-key")
 		local telescope = require("telescope.builtin")
 
-		vim.keymap.set("n", "<c-p>", telescope.find_files, { silent = true })
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true })
-		vim.keymap.set("n", "<f34>", telescope.buffers, { silent = true })
-
 		wk.add({
-			{ "gd", vim.lsp.buf.declaration, desc = "[d]eclaration" },
-			{ "gD", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
-			{ "gI", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
-		})
+			-- Misc
+			{ "K", vim.lsp.buf.hover, desc = "Show [K]ind" },
+			{ "<leader>/", ":noh<CR>", desc = "Clear [s]earch" },
 
-		wk.add({
-			-- Files
-			{ "<leader>f", group = "[F]iles" },
-            { "<leader>fg", require("telescope.builtin").live_grep, desc = "[g]rep File Contents" },
-			{ "<leader>ft", require("nvim-tree.api").tree.open, desc = "Toggle [t]ree" },
+			-- Copilot
+			{
+				"<leader><S-c>",
+				group = "[C]opilot",
+				{
+					"<S-Tab>",
+					mode = { "i" },
+					function()
+						if require("copilot.suggestion").is_visible() then
+							require("copilot.suggestion").accept()
+						end
+					end,
+					desc = "Accept Copilot Suggestion",
+				},
+				{
+					"<leader><S-c>c",
+					function()
+						require("CopilotChat").toggle({ window = { layout = "float" } })
+					end,
+					desc = "Copilot",
+				},
+			},
+			-- File Navigation
+			{
+				"<leader>p",
+				group = "File [n]avigation",
+				{ "<c-p>", telescope.find_files, desc = "Find files" },
+				{ "<leader>pb", telescope.buffers, desc = "List [b]uffers" },
+				-- { "<leader>pt", require("nvim-tree.api").tree.open, desc = "Toggle [t]ree" },
+				{ "<leader>pt", require("telescope.builtin").builtin, desc = "[t]elescope" },
+				{ "<leader>pp", require("telescope").extensions.projects.projects, desc = "[p]rojects" },
+				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
+				{ "<leader>pf", require("telescope").extensions.flutter.commands, desc = "[f]lutter commands" },
+			},
+
+			-- File Editing
+			{
+				"<leader>e",
+				group = "[e]dit",
+				{ "<leader>ef", ":Format<cr>", desc = "Format [f]ile" },
+			},
+
+			-- Search
+			{ "<leader>s", group = "[s]earch" },
+			{ "<leader>ss", require("telescope.builtin").current_buffer_fuzzy_find, desc = "[s]earch buffer" },
+			{ "<leader>sf", require("telescope.builtin").live_grep, desc = "search [f]iles" },
+
+			-- Jump Navigation
+			{ "<leader>j", group = "[j]ump" },
+			{
+				"<leader>jj",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "[j]ump",
+			},
+			{ "<leader>jd", vim.lsp.buf.declaration, desc = "[d]eclaration" },
+			{ "<leader>jD", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
+			{ "<leader>jI", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
+			{ "<leader>jt", require("flash").treesitter, desc = "Treesitter Jump" },
 
 			-- Help
 			{ "<leader>h", group = "[H]elp" },
@@ -47,7 +98,29 @@ return {
 			-- DAP
 			{
 				{ "<leader>d", group = "[d]ebug" },
-				{ "<leader>dc", require("dap").continue, desc = "[c]ontinue (or start)" },
+
+				{
+					"<leader>dc",
+					function()
+						require("dap").continue()
+					end,
+					desc = "[c]ontinue (or start)",
+				},
+				{
+					"<leader>dl",
+					function()
+						require("dap.ext.vscode").load_launchjs(nil, {
+							["node"] = { "javascript", "typescript" },
+							["pwa-node"] = { "javascript", "typescript" },
+							["pwa-chrome"] = { "javascript", "typescript" },
+							["pwa-msedge"] = { "javascript", "typescript" },
+							["node-terminal"] = { "javascript", "typescript" },
+							["pwa-extensionHost"] = { "javascript", "typescript" },
+						})
+						require("dap").continue()
+					end,
+					desc = "[l]oad launch.js",
+				},
 				{ "<leader>do", require("dap").step_over, desc = "Step [o]ver" },
 				{ "<leader>di", require("dap").step_into, desc = "Step [i]nto" },
 				{ "<leader>dO", require("dap").step_out, desc = "Step [O]ut" },
