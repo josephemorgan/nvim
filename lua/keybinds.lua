@@ -10,8 +10,8 @@ return {
 
 			-- Copilot
 			{
-				"<leader><S-c>",
-				group = "[C]opilot",
+				"<leader>c",
+				group = "[c]opilot",
 				{
 					"<S-Tab>",
 					mode = { "i" },
@@ -23,11 +23,16 @@ return {
 					desc = "Accept Copilot Suggestion",
 				},
 				{
-					"<leader><S-c>c",
+					"<leader>cc",
 					function()
 						require("CopilotChat").toggle({ window = { layout = "float" } })
 					end,
 					desc = "Copilot",
+				},
+				{
+					"<leader>ct",
+					desc = "Toggle Copilot [t]rigger",
+					require("copilot.suggestion").toggle_auto_trigger,
 				},
 			},
 			-- File Navigation
@@ -36,7 +41,6 @@ return {
 				group = "File [n]avigation",
 				{ "<c-p>", telescope.find_files, desc = "Find files" },
 				{ "<leader>pb", telescope.buffers, desc = "List [b]uffers" },
-				-- { "<leader>pt", require("nvim-tree.api").tree.open, desc = "Toggle [t]ree" },
 				{ "<leader>pt", require("telescope.builtin").builtin, desc = "[t]elescope" },
 				{ "<leader>pp", require("telescope").extensions.projects.projects, desc = "[p]rojects" },
 				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
