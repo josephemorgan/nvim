@@ -13,7 +13,7 @@ return {
 		},
 		debugger = {
 			enabled = true,
-			register_configurations = function(_)
+			register_configurations = function()
 				require("dap").configurations.dart = {}
 				require("dap.ext.vscode").load_launchjs()
 			end,
@@ -21,5 +21,24 @@ return {
 		closing_tags = {
 			enabled = false,
 		},
+		dev_log = {
+			enabled = false,
+		},
+		dev_tools = {
+			autostart = true,
+			auto_open_browser = true,
+		},
+		lsp = {
+			settings = {
+				lineLength = 120,
+			},
+			capabilities = {
+				textDocument = {
+					formatting = {
+						dynamicRegistration = false,
+					},
+				}
+			}
+		}
 	},
 }
