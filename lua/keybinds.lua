@@ -51,7 +51,7 @@ return {
 			{
 				"<leader>e",
 				group = "[e]dit",
-				{ "<leader>ef", ":Format<cr>", desc = "Format [f]ile" },
+				{ "<leader>ef", require("conform").format, desc = "Format [f]ile" },
 			},
 
 			-- Search
@@ -79,6 +79,12 @@ return {
 			{ "<leader>hh", require("telescope.builtin").help_tags, desc = "Search [h]elp" },
 			{ "<leader>hm", require("telescope.builtin").man_pages, desc = "Search [m]anpages" },
 
+			-- Tasks
+			{ "<leader>t", group = "[t]asks" },
+			{ "<leader>tt", require("overseer").toggle, desc = "[t]oggle tasks" },
+			{ "<leader>tr", "<cmd>OverseerRun<cr>", desc = "[r]un task" },
+			{ "<leader>tl", require("overseer").load_template, desc = "[l]oad task template" },
+
 			-- LSP
 			{ "<leader>l", group = "[L]anguage Server" },
 			{ "<leader>ld", vim.diagnostic.open_float, desc = "Open [d]iagnostics" },
@@ -86,50 +92,46 @@ return {
 			{ "<leader>ll", require("telescope.builtin").diagnostics, desc = "[l]ist Diagnostics" },
 			{ "<leader>lh", vim.lsp.buf.signature_help, desc = "Signature [h]elp" },
 			{ "<leader>lr", vim.lsp.buf.rename, desc = "[r]ename" },
-			{ "<leader>la", vim.lsp.buf.code_action, desc = "Code [a]ction" },
+			{ "<C-.>", vim.lsp.buf.code_action, desc = "Code action" },
 			{ "<leader>lR", require("telescope.builtin").lsp_references, desc = "Show [R]eferences" },
-			{ "<leader>lp", vim.diagnostic.goto_previous, desc = "[p]revious Diagnostic" },
-			{ "<leader>ln", vim.diagnostic.goto_next, desc = "[n]ext Diagnostic" },
 			{
 				{ "<leader>g", group = "[g]o to" },
-				{ "<leader>gp", vim.diagnostic.goto_previous, desc = "[p]revious Diagnostic" },
-				{ "<leader>gn", vim.diagnostic.goto_next, desc = "[n]ext Diagnostic" },
-				{ "<leader>gd", vim.lsp.buf.declaration, desc = "[d]eclaration" },
-				{ "<leader>gD", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
+				{
+					"<leader>gp",
+					function()
+						vim.diagnostic.jump({ count = -1, float = true })
+					end,
+					desc = "[p]revious Diagnostic",
+				},
+				{
+					"<leader>gn",
+					function()
+						vim.diagnostic.jump({ count = 1, float = true })
+					end,
+					desc = "[n]ext Diagnostic",
+				},
+				{ "<leader>gd", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
 				{ "<leader>gi", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
 			},
 
 			-- DAP
 			{
 				{ "<leader>d", group = "[d]ebug" },
-
 				{
-					"<leader>dc",
-					function()
-						require("dap").continue()
-					end,
+					"<f5>",
+					require("dap").continue,
 					desc = "[c]ontinue (or start)",
 				},
 				{
-					"<leader>dl",
-					function()
-						require("dap.ext.vscode").load_launchjs(nil, {
-							["node"] = { "javascript", "typescript" },
-							["pwa-node"] = { "javascript", "typescript" },
-							["pwa-chrome"] = { "javascript", "typescript" },
-							["pwa-msedge"] = { "javascript", "typescript" },
-							["node-terminal"] = { "javascript", "typescript" },
-							["pwa-extensionHost"] = { "javascript", "typescript" },
-						})
-						require("dap").continue()
-					end,
-					desc = "[l]oad launch.js",
+					"<f10>",
+					require("dap").step_over,
+					desc = "Step [o]ver",
 				},
-				{ "<leader>do", require("dap").step_over, desc = "Step [o]ver" },
-				{ "<leader>di", require("dap").step_into, desc = "Step [i]nto" },
-				{ "<leader>dO", require("dap").step_out, desc = "Step [O]ut" },
-				{ "<leader>db", require("dap").toggle_breakpoint, desc = "Toggle [b]reakpoint" },
-				{ "<leader>dB", require("dap").set_breakpoint, desc = "Set [B]reakpoint" },
+				{ "<f11>", require("dap").step_into, desc = "Step [i]nto" },
+				{ "<S-<f11>>", require("dap").step_out, desc = "Step [O]ut" },
+				{ "<f9>", require("dap").toggle_breakpoint, desc = "Toggle [b]reakpoint" },
+				{ "<leader>du", require("dap").up, desc = "Go [u]p" },
+				{ "<leader>dd", require("dap").down, desc = "Go [d]own" },
 				{ "<leader>dr", require("dap").repl.open, desc = "Open [r]EPL" },
 				{ "<leader>dR", require("dap").restart, desc = "[R]estart" },
 				{ "<leader>dh", require("dap.ui.widgets").hover, desc = "[h]over" },
@@ -149,6 +151,23 @@ return {
 						widgets.centered_float(widgets.scopes)
 					end,
 					desc = "[s]copes",
+				},
+				{ "<leader>dv", "<cmd>DapViewToggle<cr>", desc = "DAP [v]iew" },
+				{ "<leader>db", group = "[b]reakpoints" },
+				{
+					"<leader>dbl",
+					require("dap").list_breakpoints,
+					desc = "[l]ist",
+				},
+				{
+					"<leader>dbc",
+					require("dap").clear_breakpoints,
+					desc = "[c]lear",
+				},
+				{
+					"<leader>dbe",
+					require("dap").set_exception_breakpoints,
+					desc = "[e]xceptions",
 				},
 			},
 		})

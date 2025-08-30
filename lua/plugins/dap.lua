@@ -10,87 +10,87 @@ return {
 			"Joakker/lua-json5",
 			build = "./install.sh",
 		},
-		{
-			"rcarriga/nvim-dap-ui",
-			dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-			opts = {
-				controls = {
-					element = "repl",
-					enabled = true,
-					icons = {
-						disconnect = "",
-						pause = "",
-						play = "",
-						run_last = "",
-						step_back = "",
-						step_into = "",
-						step_out = "",
-						step_over = "",
-						terminate = "",
-					},
-				},
-				element_mappings = {},
-				expand_lines = true,
-				floating = {
-					border = "single",
-					mappings = {
-						close = { "q", "<Esc>" },
-					},
-				},
-				force_buffers = true,
-				icons = {
-					collapsed = "",
-					current_frame = "",
-					expanded = "",
-				},
-				layouts = {
-					{
-						elements = {
-							{
-								id = "scopes",
-								size = 0.25,
-							},
-							{
-								id = "breakpoints",
-								size = 0.25,
-							},
-							{
-								id = "stacks",
-								size = 0.25,
-							},
-						},
-						position = "left",
-						size = 40,
-					},
-					{
-						elements = {
-							{
-								id = "repl",
-								size = 0.5,
-							},
-							{
-								id = "console",
-								size = 0.5,
-							},
-						},
-						position = "bottom",
-						size = 10,
-					},
-				},
-				mappings = {
-					edit = "e",
-					expand = { "<CR>", "<2-LeftMouse>" },
-					open = "o",
-					remove = "d",
-					repl = "r",
-					toggle = "t",
-				},
-				render = {
-					indent = 1,
-					max_value_lines = 100,
-				},
-			},
-		},
+		-- {
+		-- 	"rcarriga/nvim-dap-ui",
+		-- 	dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+		-- 	opts = {
+		-- 		controls = {
+		-- 			element = "repl",
+		-- 			enabled = true,
+		-- 			icons = {
+		-- 				disconnect = "",
+		-- 				pause = "",
+		-- 				play = "",
+		-- 				run_last = "",
+		-- 				step_back = "",
+		-- 				step_into = "",
+		-- 				step_out = "",
+		-- 				step_over = "",
+		-- 				terminate = "",
+		-- 			},
+		-- 		},
+		-- 		element_mappings = {},
+		-- 		expand_lines = true,
+		-- 		floating = {
+		-- 			border = "single",
+		-- 			mappings = {
+		-- 				close = { "q", "<Esc>" },
+		-- 			},
+		-- 		},
+		-- 		force_buffers = true,
+		-- 		icons = {
+		-- 			collapsed = "",
+		-- 			current_frame = "",
+		-- 			expanded = "",
+		-- 		},
+		-- 		layouts = {
+		-- 			{
+		-- 				elements = {
+		-- 					{
+		-- 						id = "scopes",
+		-- 						size = 0.25,
+		-- 					},
+		-- 					{
+		-- 						id = "breakpoints",
+		-- 						size = 0.25,
+		-- 					},
+		-- 					{
+		-- 						id = "stacks",
+		-- 						size = 0.25,
+		-- 					},
+		-- 				},
+		-- 				position = "left",
+		-- 				size = 40,
+		-- 			},
+		-- 			{
+		-- 				elements = {
+		-- 					{
+		-- 						id = "repl",
+		-- 						size = 0.5,
+		-- 					},
+		-- 					{
+		-- 						id = "console",
+		-- 						size = 0.5,
+		-- 					},
+		-- 				},
+		-- 				position = "bottom",
+		-- 				size = 10,
+		-- 			},
+		-- 		},
+		-- 		mappings = {
+		-- 			edit = "e",
+		-- 			expand = { "<CR>", "<2-LeftMouse>" },
+		-- 			open = "o",
+		-- 			remove = "d",
+		-- 			repl = "r",
+		-- 			toggle = "t",
+		-- 		},
+		-- 		render = {
+		-- 			indent = 1,
+		-- 			max_value_lines = 100,
+		-- 		},
+		-- 	},
+		-- },
 	},
 	lazy = false,
 	config = function()
@@ -153,22 +153,48 @@ return {
 			}
 		end
 
-		local dapui = require("dapui")
+		dap.adapters.coreclr = {
+			type = "executable",
+			command = "C:/Users/morganj/AppData/Local/nvim-data/mason/bin/netcoredbg.cmd",
+			args = { "--interpreter=vscode" },
+			options = {
+				detached = false,
+			},
+		}
 
-		dap.listeners.before.attach.dapui_config = function()
-			dapui.open()
-		end
+		dap.configurations.cs = {
+			{
+				type = "coreclr",
+				name = "launch - netcoredbg",
+				request = "launch",
+				program = function()
+					return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
+				end,
+			},
+			{
+				type = "coreclr",
+				name = "attach - netcoredbg",
+				request = "attach",
+				processId = require("dap.utils").pick_process,
+			},
+		}
 
-		dap.listeners.before.launch.dapui_config = function()
-			dapui.open()
-		end
-
-		dap.listeners.before.event_terminated.dapui_config = function()
-			dapui.close()
-		end
-
-		dap.listeners.before.event_exited.dapui_config = function()
-			dapui.close()
-		end
+		-- local dapui = require("dapui")
+		--
+		-- dap.listeners.before.attach.dapui_config = function()
+		-- 	dapui.open()
+		-- end
+		--
+		-- dap.listeners.before.launch.dapui_config = function()
+		-- 	dapui.open()
+		-- end
+		--
+		-- dap.listeners.before.event_terminated.dapui_config = function()
+		-- 	dapui.close()
+		-- end
+		--
+		-- dap.listeners.before.event_exited.dapui_config = function()
+		-- 	dapui.close()
+		-- end
 	end,
 }

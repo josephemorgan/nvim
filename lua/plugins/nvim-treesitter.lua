@@ -15,6 +15,7 @@ return {
 				"typescript",
 				"html",
 				"python",
+				"diff",
 			},
 			sync_install = false,
 			highlight = { enable = true },

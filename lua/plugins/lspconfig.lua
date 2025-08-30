@@ -11,6 +11,12 @@ return {
 				"MasonLog",
 			},
 			lazy = false,
+			opts = {
+				registries = {
+					"github:mason-org/mason-registry",
+					"github:Crashdummyy/mason-registry",
+				}
+			}
 		},
 		{
 

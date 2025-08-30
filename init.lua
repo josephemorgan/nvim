@@ -38,6 +38,8 @@ vim.opt.expandtab = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.formatoptions = "jcroql"
+vim.opt.wrap = false
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "python",
@@ -46,3 +48,24 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.softtabstop = 4
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "csharp",
+	callback = function()
+		vim.opt_local.expandtab = true
+		vim.opt_local.softtabstop = 4
+	end,
+})
+
+-- vim.api.nvim_create_autocmd("LspAttach", {
+-- 	callback = function(args)
+-- 		-- Format on save
+-- 		if vim.lsp.get_client_by_id(args.data.client_id).server_capabilities.documentFormattingProvider then
+-- 			vim.api.nvim_create_autocmd("BufWritePre", {
+-- 				callback = function()
+-- 					vim.lsp.buf.format()
+-- 				end,
+-- 			})
+-- 		end
+-- 	end,
+-- })
