@@ -1,9 +1,9 @@
 return {
-	"rebelot/kanagawa.nvim",
-	lazy = false, -- make sure we load this during startup if it is your main colorscheme
-	priority = 1000, -- make sure to load this before all the other start plugins
-	config = function()
-		require("kanagawa").setup({
+	{
+		"rebelot/kanagawa.nvim",
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		priority = 1000, -- make sure to load this before all the other start plugins
+		opts = {
 			overrides = {},
 			theme = "dragon",
 			compile = true, -- enable compiling the colorscheme
@@ -24,10 +24,14 @@ return {
 				dark = "dragon", -- try "dragon" !
 				light = "lotus",
 			},
-		})
+		},
+		config = function(opts)
+			require("kanagawa").setup(opts)
 
-		-- setup must be called before loading
-		vim.cmd("colorscheme kanagawa")
-		vim.cmd([[colorscheme kanagawa]])
-	end,
+			-- setup must be called before loading
+			vim.cmd("colorscheme kanagawa")
+			vim.cmd([[colorscheme kanagawa]])
+		end,
+	},
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 }

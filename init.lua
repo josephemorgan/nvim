@@ -18,6 +18,7 @@ require("keybinds").setup()
 
 if vim.g.neovide then
 	require("neovide").setup()
+	vim.o.guifont = "FiraCode Nerd Font Mono:h14"
 else
 	-- Set transparent background for terminal
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
