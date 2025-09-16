@@ -16,6 +16,8 @@ return {
 				"html",
 				"python",
 				"diff",
+				"markdown",
+				"markdown_inline",
 			},
 			sync_install = false,
 			highlight = { enable = true },

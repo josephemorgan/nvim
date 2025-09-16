@@ -8,10 +8,10 @@ return {
 			{ "K", vim.lsp.buf.hover, desc = "Show [K]ind" },
 			{ "<leader>/", ":noh<CR>", desc = "Clear [s]earch" },
 
-			-- Copilot
+			-- LLM Code Companion
 			{
 				"<leader>c",
-				group = "[c]opilot",
+				group = "[c]ode companion",
 				{
 					"<S-Tab>",
 					mode = { "i" },
@@ -23,11 +23,24 @@ return {
 					desc = "Accept Copilot Suggestion",
 				},
 				{
-					"<leader>cc",
+					"<S-Right>",
+					mode = { "i" },
 					function()
-						require("CopilotChat").toggle({ window = { layout = "float" } })
+						if require("copilot.suggestion").is_visible() then
+							require("copilot.suggestion").accept_word()
+						end
 					end,
-					desc = "Copilot",
+					desc = "Accept Copilot Suggestion Word",
+				},
+				{
+					"<leader>cc",
+					require("codecompanion").chat,
+					desc = "[c]hat",
+				},
+				{
+					"<leader>ca",
+					require("codecompanion").actions,
+					desc = "[a]ctions",
 				},
 				{
 					"<leader>ct",
@@ -35,19 +48,27 @@ return {
 					require("copilot.suggestion").toggle_auto_trigger,
 				},
 			},
-			-- File Navigation
+
+			-- File Management
 			{
 				"<leader>p",
-				group = "File [n]avigation",
+				group = "File Management",
 				{ "<c-p>", telescope.find_files, desc = "Find files" },
 				{ "<leader>pb", telescope.buffers, desc = "List [b]uffers" },
+				{ "<leader>pd", require("snacks").bufdelete.delete, desc = "[d]elete buffer" },
 				{ "<leader>pt", require("telescope.builtin").builtin, desc = "[t]elescope" },
 				{ "<leader>pp", require("telescope").extensions.projects.projects, desc = "[p]rojects" },
 				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
-				{ "<leader>pf", require("telescope").extensions.flutter.commands, desc = "[f]lutter commands" },
 			},
 
-			-- File Editing
+			-- Git
+			{
+				"<leader>G",
+				group = "[G]it",
+				{ "<leader>gg", require("neogit").open, desc = "Open neo[g]it" },
+			},
+
+			-- Buffer Editing
 			{
 				"<leader>e",
 				group = "[e]dit",
@@ -136,23 +157,8 @@ return {
 				{ "<leader>dR", require("dap").restart, desc = "[R]estart" },
 				{ "<leader>dh", require("dap.ui.widgets").hover, desc = "[h]over" },
 				{ "<leader>dp", require("dap.ui.widgets").preview, desc = "[p]review" },
-				{
-					"<leader>df",
-					function()
-						local widgets = require("dap.ui.widgets")
-						widgets.centered_float(widgets.frames)
-					end,
-					desc = "[f]rames",
-				},
-				{
-					"<leader>ds",
-					function()
-						local widgets = require("dap.ui.widgets")
-						widgets.centered_float(widgets.scopes)
-					end,
-					desc = "[s]copes",
-				},
 				{ "<leader>dv", "<cmd>DapViewToggle<cr>", desc = "DAP [v]iew" },
+				{ "<leader>df", require("telescope").extensions.flutter.commands, desc = "[f]lutter commands" },
 				{ "<leader>db", group = "[b]reakpoints" },
 				{
 					"<leader>dbl",
