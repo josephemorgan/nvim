@@ -14,7 +14,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins")
-require("keybinds").setup()
 
 if vim.g.neovide then
 	require("neovide").setup()
@@ -57,16 +56,3 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.softtabstop = 4
 	end,
 })
-
--- vim.api.nvim_create_autocmd("LspAttach", {
--- 	callback = function(args)
--- 		-- Format on save
--- 		if vim.lsp.get_client_by_id(args.data.client_id).server_capabilities.documentFormattingProvider then
--- 			vim.api.nvim_create_autocmd("BufWritePre", {
--- 				callback = function()
--- 					vim.lsp.buf.format()
--- 				end,
--- 			})
--- 		end
--- 	end,
--- })
