@@ -57,10 +57,7 @@ return {
 			{
 				"<leader>u",
 				group = "[u]i",
-				{ "<leader>ui", require("snacks.toggle").indent, desc = "Toggle [i]ndent" },
-				{ "<leader>ue", require("snacks.toggle").zen, desc = "Toggle z[e]n" },
-				{ "<leader>uz", require("snacks.toggle").zoom, desc = "Toggle [z]oom" },
-				{ "<leader>ud", require("snacks.toggle").dim, desc = "Toggle [d]im" },
+				-- Set up in snacks.lua
 			},
 
 			-- Pickers
