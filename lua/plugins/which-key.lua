@@ -66,9 +66,10 @@ return {
 				group = "[p]ick",
 				{ "<c-p>", require("snacks").picker.files, desc = "Find files" },
 				{ "<leader>pb", require("snacks").picker.buffers, desc = "List [b]uffers" },
-				{ "<leader>pt", require("snacks").picker, desc = "picker" },
+				{ "<leader>pt", require("snacks").picker.pickers, desc = "picker" },
 				{ "<leader>pp", require("snacks.picker").projects, desc = "[p]rojects" },
 				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
+				{ "<leader>pe", require("snacks").picker.explorer, desc = "[e]xplorer" },
 			},
 
 			-- Git
@@ -123,6 +124,7 @@ return {
 			{ "<leader>lh", vim.lsp.buf.signature_help, desc = "Signature [h]elp" },
 			{ "<leader>lr", vim.lsp.buf.rename, desc = "[r]ename" },
 			{ "<C-.>", vim.lsp.buf.code_action, desc = "Code action" },
+			{ "<leader>la", vim.lsp.buf.code_action, desc = "Code [a]ction" },
 			{ "<leader>lR", require("telescope.builtin").lsp_references, desc = "Show [R]eferences" },
 			{
 				{ "<leader>lg", group = "[g]o to" },
