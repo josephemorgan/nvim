@@ -25,13 +25,31 @@ return {
 				light = "lotus",
 			},
 		},
-		config = function(opts)
-			require("kanagawa").setup(opts)
-
-			-- setup must be called before loading
-			vim.cmd("colorscheme kanagawa")
-			vim.cmd([[colorscheme kanagawa]])
-		end,
 	},
-	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+	{ "catppuccin/nvim", priority = 1000 },
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
+		"nyoom-engineering/oxocarbon.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
+		"kepano/flexoki-neovim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
+		"vague2k/vague.nvim",
+		lazy = false,
+		priority = 1000,
+	},
+	{
+		"savq/melange-nvim",
+		lazy = false,
+		priority = 1000,
+	},
 }

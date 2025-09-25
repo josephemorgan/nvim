@@ -64,19 +64,69 @@ return {
 			{
 				"<leader>p",
 				group = "[p]ick",
-				{ "<c-p>", require("snacks").picker.files, desc = "Find files" },
-				{ "<leader>pb", require("snacks").picker.buffers, desc = "List [b]uffers" },
-				{ "<leader>pt", require("snacks").picker.pickers, desc = "picker" },
-				{ "<leader>pp", require("snacks.picker").projects, desc = "[p]rojects" },
-				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
+				{ "<c-p>", require("telescope.builtin").find_files, desc = "Find files" },
 				{ "<leader>pe", require("snacks").picker.explorer, desc = "[e]xplorer" },
+				{ "<leader>pb", require("telescope.builtin").buffers, desc = "List [b]uffers" },
+				{ "<leader>pd", require("snacks").bufdelete.delete, desc = "[d]elete buffer" },
+				{ "<leader>pt", require("telescope.builtin").builtin, desc = "[t]elescope" },
+				{ "<leader>pp", require("telescope").extensions.project.project, desc = "[p]rojects" },
+				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
+			},
+
+			{
+				"<leader>r",
+				group = "T[r]ouble",
+				{
+					"<leader>rd",
+					"<cmd>Trouble diagnostics toggle<cr>",
+					desc = "[d]iagnostics",
+				},
+				{
+					"<leader>rb",
+					"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+					desc = "[b]uffer Diagnostics",
+				},
+				{
+					"<leader>rs",
+					"<cmd>Trouble symbols toggle focus=false<cr>",
+					desc = "[s]ymbols",
+				},
+				{
+					"<leader>rl",
+					"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+					desc = "[l]SP Definitions / references / ...",
+				},
+				{
+					"<leader>ro",
+					"<cmd>Trouble loclist toggle<cr>",
+					desc = "L[o]cation List (Trouble)",
+				},
+				{
+					"<leader>rq",
+					"<cmd>Trouble qflist toggle<cr>",
+					desc = "[q]uickfix List (Trouble)",
+				},
 			},
 
 			-- Git
 			{
 				"<leader>G",
-				group = "[G]it",
+				group = "[]it",
 				{ "<leader>gg", require("neogit").open, desc = "Open neo[g]it" },
+				{ "<leader>gd", ":DiffviewOpen<cr>", desc = "Open [d]iffview" },
+				{
+					"<leader>gh",
+					function()
+						local filename = vim.api.nvim_buf_get_name(0)
+						if filename ~= "" then
+							vim.cmd("DiffviewFileHistory " .. vim.fn.fnameescape(filename))
+						else
+							vim.cmd("DiffviewFileHistory")
+						end
+					end,
+					desc = "Open current file [h]istory",
+				},
+				{ "<leader>gb", ":Blame<cr>", desc = "[b]lame file" },
 			},
 
 			-- Buffer Editing
@@ -84,6 +134,9 @@ return {
 				"<leader>b",
 				group = "[b]uffer",
 				{ "<leader>bf", require("conform").format, desc = "Format [f]ile" },
+				{ "<leader>bF", function()
+					vim.g.disable_autoformat = not vim.g.disable_autoformat
+				end, desc = "Toggle auto[F]ormat on save" },
 				{ "<leader>bd", require("snacks").bufdelete.delete, desc = "[d]elete buffer" },
 			},
 
@@ -127,39 +180,40 @@ return {
 			{ "<leader>la", vim.lsp.buf.code_action, desc = "Code [a]ction" },
 			{ "<leader>lR", require("telescope.builtin").lsp_references, desc = "Show [R]eferences" },
 			{
+				"<leader>ln",
+				function()
+					vim.diagnostic.jump({ count = 1, float = true })
+				end,
+				desc = "[n]ext Diagnostic",
+			},
+			{
+				"<f8>",
+				function()
+					vim.diagnostic.jump({ count = 1, float = true })
+				end,
+				desc = "[n]ext Diagnostic",
+			},
+			{
+				"<leader>lp",
+				function()
+					vim.diagnostic.jump({ count = -1, float = true })
+				end,
+				desc = "[p]revious Diagnostic",
+			},
+			{
+				"<S-f8>",
+				function()
+					vim.diagnostic.jump({ count = -1, float = true })
+				end,
+				desc = "[p]revious Diagnostic",
+			},
+			{
 				{ "<leader>lg", group = "[g]o to" },
-				{
-					"<leader>gn",
-					function()
-						vim.diagnostic.jump({ count = 1, float = true })
-					end,
-					desc = "[n]ext Diagnostic",
-				},
-				{
-					"<f8>",
-					function()
-						vim.diagnostic.jump({ count = 1, float = true })
-					end,
-					desc = "[n]ext Diagnostic",
-				},
-				{
-					"<leader>gp",
-					function()
-						vim.diagnostic.jump({ count = -1, float = true })
-					end,
-					desc = "[p]revious Diagnostic",
-				},
-				{
-					"<S-f8>",
-					function()
-						vim.diagnostic.jump({ count = -1, float = true })
-					end,
-					desc = "[p]revious Diagnostic",
-				},
-				{ "<leader>lgd", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
-				{ "<f12>", require("telescope.builtin").lsp_definitions, desc = "[D]efinitions" },
+				{ "<leader>lgd", require("telescope.builtin").lsp_definitions, desc = "[d]efinitions" },
+				{ "<f12>", require("telescope.builtin").lsp_definitions, desc = "[d]efinitions" },
+				{ "<leader>lgr", require("telescope.builtin").lsp_references, desc = "[r]references" },
+				{ "<S-f12>", require("telescope.builtin").lsp_references, desc = "[r]eferences" },
 				{ "<leader>lgi", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
-				{ "<S-f12>", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
 			},
 
 			-- DAP

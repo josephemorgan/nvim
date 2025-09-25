@@ -1,9 +1,16 @@
 return {
 	"stevearc/conform.nvim",
+	---@module "conform",
+	---@type conform.setupOpts
 	opts = {
-		format_on_save = {
-			timeout_ms = 5000,
-		},
+		format_on_save = function(buf)
+			if vim.g.disable_autoformat == true then
+				return
+			end
+			return {
+				timeout_ms = 5000,
+			}
+		end,
 		formatters_by_ft = {
 			lua = { "stylua" },
 			typescript = { "prettier" },
@@ -15,7 +22,7 @@ return {
 		formatters = {
 			csharpier = {
 				command = "csharpier",
-				args = { "--stdin", "--stdout" },
+				args = { "format", "--write-stdout" },
 				stdin = true,
 			},
 		},

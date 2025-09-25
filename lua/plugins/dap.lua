@@ -32,8 +32,7 @@ return {
 				executable = {
 					command = "node",
 					args = {
-						os.getenv("HOME")
-							.. "/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+						vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
 						"${port}",
 					},
 				},
