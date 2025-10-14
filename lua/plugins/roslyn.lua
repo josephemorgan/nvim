@@ -2,8 +2,24 @@ return {
 	"seblyng/roslyn.nvim",
 	---@module 'roslyn.config'
 	---@type RoslynNvimConfig
-	opts = {
-		config = {
+	opts = {},
+	config = function(_, opts)
+		require("roslyn").setup(opts)
+
+		vim.lsp.config("roslyn", {
+			cmd = {
+				"roslyn",
+				"--logLevel",
+				"Information",
+				"--extensionLogDirectory",
+				vim.fn.stdpath("data"),
+				"--stdio",
+			},
+			handlers = {
+				["workspace/_roslyn_projectNeedsRestore"] = function(_, result, ctx)
+					return result
+				end,
+			},
 			settings = {
 				["csharp|inlay_hints"] = {
 					csharp_enable_inlay_hints_for_implicit_object_creation = true,
@@ -37,6 +53,6 @@ return {
 					dotnet_enable_file_based_programs = false,
 				},
 			},
-		},
-	},
+		})
+	end,
 }

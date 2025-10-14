@@ -5,7 +5,8 @@ return {
 		"sindrets/diffview.nvim",
 		"nvim-telescope/telescope.nvim",
 	},
-	config = {
+	opts = {
+		kind = "floating",
 		integrations = {
 			diffview = true,
 		},

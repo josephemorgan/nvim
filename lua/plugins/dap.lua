@@ -1,11 +1,16 @@
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
-		"mxsdev/nvim-dap-vscode-js",
-		{
-			"Joakker/lua-json5",
-			build = "./install.sh",
-		},
+		"mason-org/mason.nvim",
+		opts = function(_, opts)
+			opts.ensure_installed = opts.ensure_installed or {}
+			table.insert(opts.ensure_installed, "js-debug-adapter")
+		end,
+		-- "mxsdev/nvim-dap-vscode-js",
+		-- {
+		-- 	"Joakker/lua-json5",
+		-- 	build = "./install.sh",
+		-- },
 	},
 	lazy = false,
 	config = function()
@@ -37,7 +42,70 @@ return {
 					},
 				},
 			},
+			["pwa-chrome"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = "node",
+					args = {
+						vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+						"${port}",
+					},
+				},
+			},
 		}
+
+		for k, v in pairs(adapters) do
+			dap.adapters[k] = v
+		end
+
+		local vscode = require("dap.ext.vscode")
+		local js_filetypes = { "javascript", "typescript" }
+		vscode.type_to_filetypes["node"] = js_filetypes
+		vscode.type_to_filetypes["pwa-node"] = js_filetypes
+
+		for _, language in ipairs(js_filetypes) do
+			if not dap.configurations[language] then
+				dap.configurations[language] = {
+					{
+						type = "pwa-node",
+						request = "launch",
+						name = "Launch file",
+						program = "${file}",
+						cwd = "${workspaceFolder}",
+					},
+					{
+						type = "pwa-node",
+						request = "attach",
+						name = "Attach",
+						processId = require("dap.utils").pick_process,
+						cwd = "${workspaceFolder}",
+					},
+					{
+						type = "pwa-chrome",
+						name = "Attach to Chrome",
+						request = "attach",
+						cwd = "${workspaceFolder}",
+						sourceMaps = true,
+						protocol = "inspector",
+						port = 9222,
+						webRoot = "${workspaceFolder}",
+						-- urlFilter = "http://localhost:4200/*", -- alternative to url
+						trace = true,
+					},
+					{
+						type = "pwa-chrome",
+						request = "launch",
+						name = "Launch Chrome and Attach",
+						url = "https://localhost:4200",
+						userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdata",
+						webRoot = "${workspaceFolder}",
+						trace = true,
+					},
+				}
+			end
+		end
 
 		local configurations = {
 			dart = {
@@ -69,43 +137,8 @@ return {
 					processId = require("dap.utils").pick_process,
 				},
 			},
-			javascript = {
-				{
-					type = "pwa-node",
-					request = "launch",
-					name = "Launch file",
-					program = "${file}",
-					cwd = "${workspaceFolder}",
-				},
-				{
-					type = "pwa-node",
-					request = "attach",
-					name = "Attach",
-					processId = require("dap.utils").pick_process,
-					cwd = "${workspaceFolder}",
-				},
-			},
-			typescript = {
-				{
-					type = "pwa-node",
-					request = "launch",
-					name = "Launch file",
-					program = "${file}",
-					cwd = "${workspaceFolder}",
-				},
-				{
-					type = "pwa-node",
-					request = "attach",
-					name = "Attach",
-					processId = require("dap.utils").pick_process,
-					cwd = "${workspaceFolder}",
-				},
-			},
 		}
 
-		for k, v in pairs(adapters) do
-			dap.adapters[k] = v
-		end
 		for k, v in pairs(configurations) do
 			dap.configurations[k] = v
 		end

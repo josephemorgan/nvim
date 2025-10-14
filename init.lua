@@ -22,6 +22,10 @@ else
 	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 end
 
+vim.o.foldmethod = "expr" -- Use expression folding
+vim.o.foldexpr = "nvim_treesitter#foldexpr()" -- Use Tree-sitter for folding
+vim.o.foldenable = true -- Enable folding by default
+vim.o.foldlevel = 99 -- Open all folds by default
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
@@ -30,9 +34,6 @@ vim.opt.number = true
 vim.opt.background = "dark"
 vim.opt.ruler = true
 vim.opt.showmatch = true
-vim.opt.foldmethod = "syntax"
-vim.opt.foldnestmax = 1
-vim.opt.foldlevel = 1
 vim.opt.expandtab = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
@@ -40,6 +41,45 @@ vim.opt.formatoptions = "jcroql"
 vim.opt.wrap = false
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 vim.o.exrc = true
+
+local function fold_virt_text(result, s, lnum, coloff)
+	if not coloff then
+		coloff = 0
+	end
+	local text = ""
+	local hl
+	for i = 1, #s do
+		local char = s:sub(i, i)
+		local hls = vim.treesitter.get_captures_at_pos(0, lnum, coloff + i - 1)
+		local _hl = hls[#hls]
+		if _hl then
+			local new_hl = "@" .. _hl.capture
+			if new_hl ~= hl then
+				table.insert(result, { text, hl })
+				text = ""
+				hl = nil
+			end
+			text = text .. char
+			hl = new_hl
+		else
+			text = text .. char
+		end
+	end
+	table.insert(result, { text, hl })
+end
+
+function _G.custom_foldtext()
+	local start = vim.fn.getline(vim.v.foldstart):gsub("\t", string.rep(" ", vim.o.tabstop))
+	local end_str = vim.fn.getline(vim.v.foldend)
+	local end_ = vim.trim(end_str)
+	local result = {}
+	fold_virt_text(result, start, vim.v.foldstart - 1)
+	table.insert(result, { " ... ", "Delimiter" })
+	fold_virt_text(result, end_, vim.v.foldend - 1, #(end_str:match("^(%s+)") or ""))
+	return result
+end
+
+vim.opt.foldtext = "v:lua.custom_foldtext()"
 
 if vim.loop.os_uname().version:match("Windows") then
 	vim.opt.shell = "pwsh.exe"
