@@ -31,15 +31,15 @@ return {
 		lsp = {
 			settings = {
 				lineLength = 120,
-				analysisExcludedFolders = { vim.fn.expand("$HOME/AppData/Local/Pub/Cache") }
+				analysisExcludedFolders = { vim.fn.expand("$HOME/AppData/Local/Pub/Cache") },
 			},
 			capabilities = {
 				textDocument = {
 					formatting = {
 						dynamicRegistration = false,
 					},
-				}
-			}
-		}
+				},
+			},
+		},
 	},
 }

@@ -12,10 +12,10 @@ return {
 			{ "K", vim.lsp.buf.hover, desc = "Show [K]ind" },
 			{ "<leader>/", ":noh<CR>", desc = "Clear [s]earch" },
 
-			-- LLM Code Companion
+			-- AI Code Companion
 			{
 				"<leader>c",
-				group = "[c]ode companion",
+				group = "Code [c]ompanion",
 				{
 					"<S-Tab>",
 					mode = { "i" },
@@ -37,19 +37,25 @@ return {
 					desc = "Accept Copilot Suggestion Word",
 				},
 				{
+					"<leader>ct",
+					desc = "Toggle Copilot [t]rigger",
+					function()
+						require("copilot.suggestion").toggle_auto_trigger()
+					end,
+				},
+				{
 					"<leader>cc",
-					require("codecompanion").chat,
+					function()
+						require("codecompanion").chat()
+					end,
 					desc = "[c]hat",
 				},
 				{
 					"<leader>ca",
-					require("codecompanion").actions,
+					function()
+						require("codecompanion").actions({})
+					end,
 					desc = "[a]ctions",
-				},
-				{
-					"<leader>ct",
-					desc = "Toggle Copilot [t]rigger",
-					require("copilot.suggestion").toggle_auto_trigger,
 				},
 			},
 
@@ -58,17 +64,25 @@ return {
 				"<leader>u",
 				group = "[u]i",
 				-- Set up in snacks.lua
+				{ "<leader>uh", require("snacks").notifier.show_history, desc = "Show Notification [h]istory" },
 			},
 
 			-- Pickers
 			{
 				"<leader>p",
 				group = "[p]ick",
-				{ "<c-p>", require("telescope.builtin").find_files, desc = "Find files" },
+				-- { "<c-p>", require("telescope.builtin").find_files, desc = "Find files" },
+				{ "<c-p>", require("snacks").picker.files, desc = "Find files" },
 				{ "<leader>pe", require("snacks").picker.explorer, desc = "[e]xplorer" },
-				{ "<leader>pb", require("telescope.builtin").buffers, desc = "List [b]uffers" },
+				{ "<leader>pb", require("snacks").picker.buffers, desc = "List [b]uffers" },
 				{ "<leader>pd", require("snacks").bufdelete.delete, desc = "[d]elete buffer" },
-				{ "<leader>pt", require("telescope.builtin").builtin, desc = "[t]elescope" },
+				{
+					"<leader>pt",
+					function()
+						require("snacks").picker()
+					end,
+					desc = "[t]elescope",
+				},
 				{ "<leader>pp", require("telescope").extensions.project.project, desc = "[p]rojects" },
 				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
 			},
@@ -108,11 +122,67 @@ return {
 				},
 			},
 
+			{
+				"<leader>a",
+				group = "[a]ngular",
+				{
+					"<leader>at",
+					function()
+						local file = vim.api.nvim_buf_get_name(0)
+						local fname = vim.fn.fnamemodify(file, ":t")
+						local base = fname:match("^(.*%.component)%..*$")
+						if base then
+							vim.notify("Opening template: " .. base .. ".html")
+							local dir = vim.fn.fnamemodify(file, ":h")
+							local template_path = dir .. "/" .. base .. ".html"
+							vim.cmd("edit " .. vim.fn.fnameescape(template_path))
+						end
+					end,
+					desc = "Angular Component [t]emplate File",
+				},
+				{
+					"<leader>ac",
+					function()
+						local file = vim.api.nvim_buf_get_name(0)
+						local fname = vim.fn.fnamemodify(file, ":t")
+						local base = fname:match("^(.*%.component)%..*$")
+						if base then
+							vim.notify("Opening component file: " .. base .. ".ts", vim.log.levels.INFO)
+							local dir = vim.fn.fnamemodify(file, ":h")
+							local template_path = dir .. "/" .. base .. ".ts"
+							vim.cmd("edit " .. vim.fn.fnameescape(template_path))
+						end
+					end,
+					desc = "Angular Component [c]omponent File",
+				},
+				{
+					"<leader>as",
+					function()
+						local file = vim.api.nvim_buf_get_name(0)
+						local fname = vim.fn.fnamemodify(file, ":t")
+						local base = fname:match("^(.*%.component)%..*$")
+						if base then
+							vim.notify("Opening style file: " .. base .. ".scss", vim.log.levels.INFO)
+							local dir = vim.fn.fnamemodify(file, ":h")
+							local template_path = dir .. "/" .. base .. ".scss"
+							vim.cmd("edit " .. vim.fn.fnameescape(template_path))
+						end
+					end,
+					desc = "Angular Component [s]tyle File",
+				},
+			},
+
 			-- Git
 			{
-				"<leader>G",
-				group = "[]it",
-				{ "<leader>gg", require("neogit").open, desc = "Open neo[g]it" },
+				"<leader>g",
+				group = "[g]it",
+				{
+					"<leader>gg",
+					function()
+						require("neogit").open({ kind = "floating" })
+					end,
+					desc = "Open neo[g]it",
+				},
 				{ "<leader>gd", ":DiffviewOpen<cr>", desc = "Open [d]iffview" },
 				{
 					"<leader>gh",
@@ -126,6 +196,8 @@ return {
 					end,
 					desc = "Open current file [h]istory",
 				},
+
+				{ "<leader>gl", require("snacks").git.blame_line, desc = "[b]lame file" },
 				{ "<leader>gb", ":Blame<cr>", desc = "[b]lame file" },
 			},
 
@@ -134,17 +206,40 @@ return {
 				"<leader>b",
 				group = "[b]uffer",
 				{ "<leader>bf", require("conform").format, desc = "Format [f]ile" },
-				{ "<leader>bF", function()
-					vim.g.disable_autoformat = not vim.g.disable_autoformat
-				end, desc = "Toggle auto[F]ormat on save" },
-				{ "<leader>bd", require("snacks").bufdelete.delete, desc = "[d]elete buffer" },
+				{
+					"<leader>bF",
+					function()
+						vim.g.disable_autoformat = not vim.g.disable_autoformat
+					end,
+					desc = "Toggle auto[F]ormat on save",
+				},
+				{
+					"<leader>bs",
+					function()
+						require("snacks").scratch()
+					end,
+					desc = "Toggle [s]cratch buffer",
+				},
+				{
+					"<leader>bS",
+					function()
+						require("snacks").scratch.select()
+					end,
+					desc = "[S]elect scratch buffer",
+				},
+				{
+					"<leader>bd",
+					function()
+						require("snacks").bufdelete.delete()
+					end,
+					desc = "[d]elete buffer",
+				},
 			},
 
 			-- Search
 			{ "<leader>s", group = "[s]earch" },
 			{ "<leader>ss", require("telescope.builtin").current_buffer_fuzzy_find, desc = "[s]earch buffer" },
 			{ "<leader>sf", require("telescope.builtin").live_grep, desc = "search [f]iles" },
-			{ "<leader>sb", "<cmd>BlameToggle<cr>", desc = "[b]lame" },
 
 			-- Jump Navigation
 			{ "<leader>j", group = "[j]ump" },
@@ -256,6 +351,16 @@ return {
 					require("dap").set_exception_breakpoints,
 					desc = "[e]xceptions",
 				},
+			},
+
+			-- Folding
+			{
+				{ "<leader>o", group = "F[o]ld" },
+				{ "<leader>oa", require("ufo").openAllFolds, desc = "[a]ll" },
+				{ "<leader>oc", require("ufo").closeAllFolds, desc = "[c]lose all" },
+				{ "<leader>oM", require("ufo").closeAllFolds, desc = "Close [M]ost" },
+				{ "<leader>om", require("ufo").openFoldsExceptKinds, desc = "Open [m]ost" },
+				{ "<leader>ot", require("ufo").toggleFold, desc = "[t]oggle" },
 			},
 		},
 		-- show a warning when issues were detected with your mappings
