@@ -64,18 +64,48 @@ return {
 				"<leader>u",
 				group = "[u]i",
 				-- Set up in snacks.lua
-				{ "<leader>uh", require("snacks").notifier.show_history, desc = "Show Notification [h]istory" },
+				{
+					"<leader>uh",
+					function()
+						require("snacks").notifier.show_history()
+					end,
+					desc = "Show Notification [h]istory",
+				},
 			},
 
 			-- Pickers
 			{
 				"<leader>p",
 				group = "[p]ick",
-				-- { "<c-p>", require("telescope.builtin").find_files, desc = "Find files" },
-				{ "<c-p>", require("snacks").picker.files, desc = "Find files" },
-				{ "<leader>pe", require("snacks").picker.explorer, desc = "[e]xplorer" },
-				{ "<leader>pb", require("snacks").picker.buffers, desc = "List [b]uffers" },
-				{ "<leader>pd", require("snacks").bufdelete.delete, desc = "[d]elete buffer" },
+				-- { "<c-p>", function() require("telescope.builtin").find_files() end, desc = "Find files" },
+				{
+					"<c-p>",
+					function()
+						require("snacks").picker.files()
+					end,
+					desc = "Find files",
+				},
+				{
+					"<leader>pe",
+					function()
+						require("snacks").picker.explorer()
+					end,
+					desc = "[e]xplorer",
+				},
+				{
+					"<leader>pb",
+					function()
+						require("snacks").picker.buffers()
+					end,
+					desc = "List [b]uffers",
+				},
+				{
+					"<leader>pd",
+					function()
+						require("snacks").bufdelete.delete()
+					end,
+					desc = "[d]elete buffer",
+				},
 				{
 					"<leader>pt",
 					function()
@@ -83,8 +113,20 @@ return {
 					end,
 					desc = "[t]elescope",
 				},
-				{ "<leader>pp", require("telescope").extensions.project.project, desc = "[p]rojects" },
-				{ "<leader>pr", require("telescope").extensions.file_browser.file_browser, desc = "b[r]owse files" },
+				{
+					"<leader>pp",
+					function()
+						require("telescope").extensions.project.project()
+					end,
+					desc = "[p]rojects",
+				},
+				{
+					"<leader>pr",
+					function()
+						require("telescope").extensions.file_browser.file_browser()
+					end,
+					desc = "b[r]owse files",
+				},
 			},
 
 			{
@@ -197,7 +239,13 @@ return {
 					desc = "Open current file [h]istory",
 				},
 
-				{ "<leader>gl", require("snacks").git.blame_line, desc = "[b]lame file" },
+				{
+					"<leader>gl",
+					function()
+						require("snacks").git.blame_line()
+					end,
+					desc = "[b]lame file",
+				},
 				{ "<leader>gb", ":Blame<cr>", desc = "[b]lame file" },
 			},
 
@@ -205,7 +253,13 @@ return {
 			{
 				"<leader>b",
 				group = "[b]uffer",
-				{ "<leader>bf", require("conform").format, desc = "Format [f]ile" },
+				{
+					"<leader>bf",
+					function()
+						require("conform").format()
+					end,
+					desc = "Format [f]ile",
+				},
 				{
 					"<leader>bF",
 					function()
@@ -238,8 +292,20 @@ return {
 
 			-- Search
 			{ "<leader>s", group = "[s]earch" },
-			{ "<leader>ss", require("telescope.builtin").current_buffer_fuzzy_find, desc = "[s]earch buffer" },
-			{ "<leader>sf", require("telescope.builtin").live_grep, desc = "search [f]iles" },
+			{
+				"<leader>ss",
+				function()
+					require("telescope.builtin").current_buffer_fuzzy_find()
+				end,
+				desc = "[s]earch buffer",
+			},
+			{
+				"<leader>sf",
+				function()
+					require("telescope.builtin").live_grep()
+				end,
+				desc = "search [f]iles",
+			},
 
 			-- Jump Navigation
 			{ "<leader>j", group = "[j]ump" },
@@ -251,29 +317,107 @@ return {
 				end,
 				desc = "[j]ump",
 			},
-			{ "<leader>jt", require("flash").treesitter, desc = "Treesitter Jump" },
+			{
+				"<leader>jt",
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Treesitter Jump",
+			},
 
 			-- Help
 			{ "<leader>h", group = "[H]elp" },
-			{ "<leader>hh", require("telescope.builtin").help_tags, desc = "Search [h]elp" },
-			{ "<leader>hm", require("telescope.builtin").man_pages, desc = "Search [m]anpages" },
+			{
+				"<leader>hh",
+				function()
+					require("telescope.builtin").help_tags()
+				end,
+				desc = "Search [h]elp",
+			},
+			{
+				"<leader>hm",
+				function()
+					require("telescope.builtin").man_pages()
+				end,
+				desc = "Search [m]anpages",
+			},
 
 			-- Tasks
 			{ "<leader>t", group = "[t]asks" },
-			{ "<leader>tt", require("overseer").toggle, desc = "[t]oggle tasks" },
+			{
+				"<leader>tt",
+				function()
+					require("overseer").toggle()
+				end,
+				desc = "[t]oggle tasks",
+			},
 			{ "<leader>tr", "<cmd>OverseerRun<cr>", desc = "[r]un task" },
-			{ "<leader>tl", require("overseer").load_template, desc = "[l]oad task template" },
+			{
+				"<leader>tl",
+				function()
+					require("overseer").load_template()
+				end,
+				desc = "[l]oad task template",
+			},
 
 			-- LSP
 			{ "<leader>l", group = "[L]anguage Server" },
-			{ "<leader>ld", vim.diagnostic.open_float, desc = "Open [d]iagnostics" },
-			{ "<leader>ls", require("telescope.builtin").lsp_document_symbols, desc = "Document [s]ymbols" },
-			{ "<leader>ll", require("telescope.builtin").diagnostics, desc = "[l]ist Diagnostics" },
-			{ "<leader>lh", vim.lsp.buf.signature_help, desc = "Signature [h]elp" },
-			{ "<leader>lr", vim.lsp.buf.rename, desc = "[r]ename" },
-			{ "<C-.>", vim.lsp.buf.code_action, desc = "Code action" },
-			{ "<leader>la", vim.lsp.buf.code_action, desc = "Code [a]ction" },
-			{ "<leader>lR", require("telescope.builtin").lsp_references, desc = "Show [R]eferences" },
+			{
+				"<leader>ld",
+				function()
+					vim.diagnostic.open_float()
+				end,
+				desc = "Open [d]iagnostics",
+			},
+			{
+				"<leader>ls",
+				function()
+					require("telescope.builtin").lsp_document_symbols()
+				end,
+				desc = "Document [s]ymbols",
+			},
+			{
+				"<leader>ll",
+				function()
+					require("telescope.builtin").diagnostics()
+				end,
+				desc = "[l]ist Diagnostics",
+			},
+			{
+				"<leader>lh",
+				function()
+					vim.lsp.buf.signature_help()
+				end,
+				desc = "Signature [h]elp",
+			},
+			{
+				"<leader>lr",
+				function()
+					vim.lsp.buf.rename()
+				end,
+				desc = "[r]ename",
+			},
+			{
+				"<C-.>",
+				function()
+					vim.lsp.buf.code_action()
+				end,
+				desc = "Code action",
+			},
+			{
+				"<leader>la",
+				function()
+					vim.lsp.buf.code_action()
+				end,
+				desc = "Code [a]ction",
+			},
+			{
+				"<leader>lR",
+				function()
+					require("telescope.builtin").lsp_references()
+				end,
+				desc = "Show [R]eferences",
+			},
 			{
 				"<leader>ln",
 				function()
@@ -304,11 +448,41 @@ return {
 			},
 			{
 				{ "<leader>lg", group = "[g]o to" },
-				{ "<leader>lgd", require("telescope.builtin").lsp_definitions, desc = "[d]efinitions" },
-				{ "<f12>", require("telescope.builtin").lsp_definitions, desc = "[d]efinitions" },
-				{ "<leader>lgr", require("telescope.builtin").lsp_references, desc = "[r]references" },
-				{ "<S-f12>", require("telescope.builtin").lsp_references, desc = "[r]eferences" },
-				{ "<leader>lgi", require("telescope.builtin").lsp_implementations, desc = "[i]mplementations" },
+				{
+					"<leader>lgd",
+					function()
+						require("telescope.builtin").lsp_definitions()
+					end,
+					desc = "[d]efinitions",
+				},
+				{
+					"<f12>",
+					function()
+						require("telescope.builtin").lsp_definitions()
+					end,
+					desc = "[d]efinitions",
+				},
+				{
+					"<leader>lgr",
+					function()
+						require("telescope.builtin").lsp_references()
+					end,
+					desc = "[r]references",
+				},
+				{
+					"<S-f12>",
+					function()
+						require("telescope.builtin").lsp_references()
+					end,
+					desc = "[r]eferences",
+				},
+				{
+					"<leader>lgi",
+					function()
+						require("telescope.builtin").lsp_implementations()
+					end,
+					desc = "[i]mplementations",
+				},
 			},
 
 			-- DAP
@@ -316,39 +490,109 @@ return {
 				{ "<leader>d", group = "[d]ebug" },
 				{
 					"<f5>",
-					require("dap").continue,
+					function()
+						require("dap").continue()
+					end,
 					desc = "[c]ontinue (or start)",
 				},
 				{
 					"<f10>",
-					require("dap").step_over,
+					function()
+						require("dap").step_over()
+					end,
 					desc = "Step [o]ver",
 				},
-				{ "<f11>", require("dap").step_into, desc = "Step [i]nto" },
-				{ "<S-<f11>>", require("dap").step_out, desc = "Step [O]ut" },
-				{ "<f9>", require("dap").toggle_breakpoint, desc = "Toggle [b]reakpoint" },
-				{ "<leader>du", require("dap").up, desc = "Go [u]p" },
-				{ "<leader>dd", require("dap").down, desc = "Go [d]own" },
-				{ "<leader>dr", require("dap").repl.open, desc = "Open [r]EPL" },
-				{ "<leader>dR", require("dap").restart, desc = "[R]estart" },
-				{ "<leader>dh", require("dap.ui.widgets").hover, desc = "[h]over" },
-				{ "<leader>dp", require("dap.ui.widgets").preview, desc = "[p]review" },
+				{
+					"<f11>",
+					function()
+						require("dap").step_into()
+					end,
+					desc = "Step [i]nto",
+				},
+				{
+					"<S-<f11>>",
+					function()
+						require("dap").step_out()
+					end,
+					desc = "Step [O]ut",
+				},
+				{
+					"<f9>",
+					function()
+						require("dap").toggle_breakpoint()
+					end,
+					desc = "Toggle [b]reakpoint",
+				},
+				{
+					"<leader>du",
+					function()
+						require("dap").up()
+					end,
+					desc = "Go [u]p",
+				},
+				{
+					"<leader>dd",
+					function()
+						require("dap").down()
+					end,
+					desc = "Go [d]own",
+				},
+				{
+					"<leader>dr",
+					function()
+						require("dap").repl.open()
+					end,
+					desc = "Open [r]EPL",
+				},
+				{
+					"<leader>dR",
+					function()
+						require("dap").restart()
+					end,
+					desc = "[R]estart",
+				},
+				{
+					"<leader>dh",
+					function()
+						require("dap.ui.widgets").hover()
+					end,
+					desc = "[h]over",
+				},
+				{
+					"<leader>dp",
+					function()
+						require("dap.ui.widgets").preview()
+					end,
+					desc = "[p]review",
+				},
 				{ "<leader>dv", "<cmd>DapViewToggle<cr>", desc = "DAP [v]iew" },
-				{ "<leader>df", require("telescope").extensions.flutter.commands, desc = "[f]lutter commands" },
+				{
+					"<leader>df",
+					function()
+						require("telescope").extensions.flutter.commands()
+					end,
+					desc = "[f]lutter commands",
+				},
 				{ "<leader>db", group = "[b]reakpoints" },
 				{
 					"<leader>dbl",
-					require("dap").list_breakpoints,
+					function()
+						require("dap").list_breakpoints()
+					end,
 					desc = "[l]ist",
 				},
 				{
 					"<leader>dbc",
-					require("dap").clear_breakpoints,
+					function()
+						require("dap").clear_breakpoints()
+					end,
 					desc = "[c]lear",
 				},
 				{
 					"<leader>dbe",
-					require("dap").set_exception_breakpoints,
+					function()
+						require("dap").set_exception_breakpoints()
+					end,
 					desc = "[e]xceptions",
 				},
 			},
@@ -356,13 +600,23 @@ return {
 			-- Folding
 			{
 				{ "<leader>o", group = "F[o]ld" },
-				{ "<leader>oa", require("ufo").openAllFolds, desc = "[a]ll" },
-				{ "<leader>oc", require("ufo").closeAllFolds, desc = "[c]lose all" },
-				{ "<leader>oM", require("ufo").closeAllFolds, desc = "Close [M]ost" },
-				{ "<leader>om", require("ufo").openFoldsExceptKinds, desc = "Open [m]ost" },
-				{ "<leader>ot", require("ufo").toggleFold, desc = "[t]oggle" },
+				{
+					"<leader>oo",
+					function()
+						vim.cmd("normal! zo")
+					end,
+					desc = "[o]pen",
+				},
+				{
+					"<leader>oc",
+					function()
+						vim.cmd("normal! zc")
+					end,
+					desc = "[c]lose",
+				},
 			},
 		},
+
 		-- show a warning when issues were detected with your mappings
 		-- Start hidden and wait for a key to be pressed before showing the popup
 		-- Only used by enabled xo mapping modes.
