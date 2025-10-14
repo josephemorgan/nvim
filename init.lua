@@ -25,7 +25,7 @@ end
 vim.o.foldmethod = "expr" -- Use expression folding
 vim.o.foldexpr = "nvim_treesitter#foldexpr()" -- Use Tree-sitter for folding
 vim.o.foldenable = true -- Enable folding by default
-vim.o.foldlevel = 99 -- Open all folds by default
+vim.o.foldlevel = 4 -- Open all folds by default
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
