@@ -79,7 +79,7 @@ function _G.custom_foldtext()
 	return result
 end
 
-vim.opt.foldtext = "v:lua.custom_foldtext()"
+vim.opt.foldtext = "v:lua.require'folding'.custom_foldtext()"
 
 if vim.loop.os_uname().version:match("Windows") then
 	vim.opt.shell = "pwsh.exe"
@@ -89,7 +89,7 @@ if vim.loop.os_uname().version:match("Windows") then
 	vim.opt.shellpipe = '2>&1 | %%{ "$_" } | tee %s; exit $LastExitCode'
 end
 
-vim.cmd("colorscheme kanagawa-dragon")
+vim.cmd("colorscheme tokyonight")
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "python",
