@@ -51,7 +51,7 @@ return {
 			},
 		},
 		prompt_library = {
-			["Test Commit Message"] = {
+			["Commit Message"] = {
 				strategy = "chat",
 				description = "Generate a commit message",
 				opts = {
