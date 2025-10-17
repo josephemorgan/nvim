@@ -45,10 +45,13 @@ return {
 				},
 				{
 					"<leader>cc",
-					function()
-						require("codecompanion").chat()
-					end,
+					"<cmd>CodeCompanionChat Toggle<cr>",
 					desc = "[c]hat",
+				},
+				{
+					"<leader>cn",
+					"<cmd>CodeCompanionChat Add<cr>",
+					desc = "[n]ew chat",
 				},
 				{
 					"<leader>ca",
@@ -599,21 +602,44 @@ return {
 
 			-- Folding
 			{
-				{ "<leader>o", group = "F[o]ld" },
-				{
-					"<leader>oo",
-					function()
-						vim.cmd("normal! zo")
-					end,
-					desc = "[o]pen",
-				},
-				{
-					"<leader>oc",
-					function()
-						vim.cmd("normal! zc")
-					end,
-					desc = "[c]lose",
-				},
+				"<F19>",
+				function()
+					vim.cmd("normal! zo")
+				end,
+				desc = "Unfold once",
+			},
+			{
+				"<S-F19>",
+				function()
+					vim.cmd("normal! zO")
+				end,
+				desc = "Unfold all",
+			},
+			{
+				"<F16>",
+				function()
+					vim.cmd("normal! zc")
+				end,
+				desc = "Fold once",
+			},
+			{
+				"<S-F16>",
+				function()
+					vim.cmd("normal! zC")
+				end,
+				desc = "FOld all",
+			},
+			{
+				"zm",
+				function()
+					vim.cmd("normal! zM")
+				end,
+			},
+			{
+				"zM",
+				function()
+					vim.cmd("normal! zM")
+				end,
 			},
 		},
 
