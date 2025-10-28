@@ -23,6 +23,7 @@ return {
 				ts_ls = {},
 				angularls = {},
 				tailwindcss_language_server = {},
+				emmet_language_server = {},
 				lua_ls = {
 					on_init = function(client)
 						if client.workspace_folders then
@@ -53,6 +54,32 @@ return {
 		},
 		event = "VeryLazy",
 		config = function(_, opts)
+			local signs = {
+				Error = " ",
+				Warn = " ",
+				Hint = "󰌵 ",
+				Info = " ",
+			}
+
+			local signConf = {
+				text = {},
+				texthl = {},
+				numhl = {},
+			}
+
+			for type, icon in pairs(signs) do
+				local severityName = string.upper(type)
+				local severity = vim.diagnostic.severity[severityName]
+				local hl = "DiagnosticSign" .. type
+				signConf.text[severity] = icon
+				signConf.texthl[severity] = hl
+				signConf.numhl[severity] = hl
+			end
+
+			vim.diagnostic.config({
+				signs = signConf,
+			})
+
 			for server, config in pairs(opts.servers) do
 				vim.lsp.enable(server)
 				vim.lsp.config(server, require("blink.cmp").get_lsp_capabilities(config.capabilities))

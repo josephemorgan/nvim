@@ -46,12 +46,49 @@ return {
 				{
 					"<leader>cc",
 					"<cmd>CodeCompanionChat Toggle<cr>",
-					desc = "[c]hat",
+					desc = "Toggle [c]hat",
 				},
 				{
 					"<leader>cn",
-					"<cmd>CodeCompanionChat Add<cr>",
+					"<cmd>CodeCompanionChat<cr>",
 					desc = "[n]ew chat",
+				},
+				{
+					"<leader>ci",
+					function()
+						local mode = vim.fn.mode()
+						vim.ui.input({ prompt = "Inline chat prompt: " }, function(input)
+							if not input or input == "" then
+								return
+							end
+							local code = ""
+							if mode == "v" or mode == "V" or mode == "\22" then -- visual, line, block
+								local bufnr = vim.api.nvim_get_current_buf()
+								local start_pos = vim.fn.getpos("'<")
+								local end_pos = vim.fn.getpos("'>")
+								local lines = vim.api.nvim_buf_get_text(
+									bufnr,
+									start_pos[2] - 1,
+									start_pos[3] - 1,
+									end_pos[2] - 1,
+									end_pos[3],
+									{}
+								)
+								code = table.concat(lines, "\n")
+							end
+							local chat_cmd =
+								string.format("CodeCompanionChat '%s%s%s'", input, code ~= "" and "\n\n" or "", code)
+							vim.cmd(chat_cmd)
+						end)
+					end,
+					desc = "[i]inline chat",
+					mode = { "n", "v" },
+				},
+				{
+					"<leader>ca",
+					"<cmd>CodeCompanionChat Add<cr>",
+					desc = "[a]dd to chat",
+					mode = { "v" },
 				},
 				{
 					"<leader>ca",
@@ -224,7 +261,7 @@ return {
 				{
 					"<leader>gg",
 					function()
-						require("neogit").open({ kind = "floating" })
+						require("neogit").open()
 					end,
 					desc = "Open neo[g]it",
 				},
@@ -575,6 +612,26 @@ return {
 						require("telescope").extensions.flutter.commands()
 					end,
 					desc = "[f]lutter commands",
+				},
+				{
+					"<leader>dw",
+					function()
+						vim.cmd("DapViewWatch")
+					end,
+					desc = "[w]atch expression",
+				},
+				{
+					"<leader>dW",
+					function()
+						vim.ui.input({ prompt = "Watch expression: " }, function(input)
+							if not input or input == "" then
+								return
+							end
+
+							vim.cmd("DapViewWatch " .. input)
+						end)
+					end,
+					desc = "Add [W]atch expression",
 				},
 				{ "<leader>db", group = "[b]reakpoints" },
 				{

@@ -52,4 +52,9 @@ return {
 		lazy = false,
 		priority = 1000,
 	},
+	{
+		"WTFox/jellybeans.nvim",
+		lazy = false,
+		priority = 1000,
+	},
 }
