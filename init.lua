@@ -13,7 +13,21 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
+require("lazy").setup({
+	spec = {
+		-- import your plugins
+		{ import = "plugins" },
+	},
+	-- Configure any other settings here. See the documentation for more details.
+	-- colorscheme that will be used when installing plugins.
+	install = { colorscheme = { "habamax" } },
+	-- automatically check for plugin updates
+	checker = { enabled = true },
+	dev = {
+		path = "~/dev/neovim-plugins",
+		fallback = true,
+	},
+})
 
 if vim.g.neovide then
 	require("neovide").setup()
@@ -25,7 +39,7 @@ end
 vim.o.foldmethod = "expr" -- Use expression folding
 vim.o.foldexpr = "nvim_treesitter#foldexpr()" -- Use Tree-sitter for folding
 vim.o.foldenable = true -- Enable folding by default
-vim.o.foldlevel = 4 -- Open all folds by default
+vim.o.foldlevel = 4
 vim.opt.termguicolors = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
