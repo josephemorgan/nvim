@@ -1,6 +1,8 @@
 return {
 	{
 		"stevearc/overseer.nvim",
+		-- branch = "stevearc-rewrite",
+		dev = true,
 		opts = {
 			task_list = {
 				max_height = 40,
