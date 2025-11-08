@@ -1,6 +1,6 @@
 return {
 	"olimorris/codecompanion.nvim",
-	dev = true,
+	dev = false,
 	lazy = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -51,38 +51,15 @@ return {
 				},
 			},
 		},
-		prompt_library = {
-			["Commit Message"] = {
-				strategy = "chat",
-				description = "Generate a commit message",
-				opts = {
-					index = 10,
-					is_default = true,
-					is_slash_cmd = true,
-					short_name = "commit",
-					auto_submit = true,
-				},
-				prompts = {
-					{
-						role = "user",
-						content = function()
-							local diff = vim.system({ "git", "diff", "--no-ext-diff", "--staged" }, { text = true })
-								:wait()
-							return string.format(
-								[[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me:
-
-```diff
-%s
-```
-]],
-								diff.stdout
-							)
-						end,
-						opts = {
-							contains_code = true,
+		adapters = {
+			http = {
+				tavily = function()
+					return require("codecompanion.adapters").extend("tavily", {
+						env = {
+							api_key = "TAVILY_API_KEY",
 						},
-					},
-				},
+					})
+				end,
 			},
 		},
 	},

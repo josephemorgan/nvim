@@ -117,25 +117,17 @@ return {
 			{
 				"<leader>p",
 				group = "[p]ick",
-				-- { "<c-p>", function() require("telescope.builtin").find_files() end, desc = "Find files" },
 				{
 					"<c-p>",
 					function()
-						require("snacks").picker.files()
+						require("telescope.builtin").find_files()
 					end,
 					desc = "Find files",
 				},
 				{
-					"<leader>pe",
-					function()
-						require("snacks").picker.explorer()
-					end,
-					desc = "[e]xplorer",
-				},
-				{
 					"<leader>pb",
 					function()
-						require("snacks").picker.buffers()
+						require("telescope.builtin").buffers()
 					end,
 					desc = "List [b]uffers",
 				},
@@ -149,7 +141,14 @@ return {
 				{
 					"<leader>pt",
 					function()
-						require("snacks").picker()
+						require("telescope.builtin").builtin()
+					end,
+					desc = "[t]elescope",
+				},
+				{
+					"<leader>ph",
+					function()
+						require("telescope.builtin").help_tags()
 					end,
 					desc = "[t]elescope",
 				},

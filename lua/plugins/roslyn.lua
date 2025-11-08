@@ -1,6 +1,6 @@
 return {
 	"seblyng/roslyn.nvim",
-	dev = true,
+	dev = false,
 	---@module 'roslyn.config'
 	---@type RoslynNvimConfig
 	opts = {},
@@ -17,7 +17,7 @@ return {
 				"--stdio",
 			},
 			handlers = {
-				["workspace/_roslyn_projectNeedsRestore"] = function(_, result, ctx)
+				["workspace/_roslyn_projectNeedsRestore"] = function(_, result, _)
 					return result
 				end,
 			},

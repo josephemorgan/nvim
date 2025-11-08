@@ -26,9 +26,9 @@ return {
 				type = "executable",
 				command = "C:/Users/morganj/AppData/Local/nvim-data/mason/bin/netcoredbg.cmd",
 				args = { "--interpreter=vscode" },
-				options = {
-					detached = false,
-				},
+				-- options = {
+				-- 	detached = false,
+				-- },
 			},
 			["pwa-node"] = {
 				type = "server",
@@ -54,6 +54,9 @@ return {
 					},
 				},
 			},
+			nlua = function(callback, config)
+				callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+			end,
 		}
 
 		for k, v in pairs(adapters) do
@@ -137,10 +140,19 @@ return {
 					processId = require("dap.utils").pick_process,
 				},
 			},
+			lua = {
+				{
+					type = "nlua",
+					request = "attach",
+					name = "Attach to running Neovim instance",
+				},
+			},
 		}
 
 		for k, v in pairs(configurations) do
 			dap.configurations[k] = v
 		end
+
+		-- require("easy-dotnet.netcoredbg").register_dap_variables_viewer()
 	end,
 }
