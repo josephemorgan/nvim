@@ -12,7 +12,7 @@ local languages = {
 	"markdown_inline",
 	"angular",
 	"scss",
-	"csharp",
+	"c_sharp",
 	"dart",
 }
 
@@ -20,63 +20,26 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		branch = "main",
-		-- version = false,
-		-- lazy = false,
 		build = ":TSUpdate",
-		-- opts = {},
-		-- config = function(_, opts)
-		-- 	require("nvim-treesitter").setup()
-		--
-		-- 	require("nvim-treesitter")
-		-- 		.install()
-		-- 		:wait(300000)
-		--
-		-- 	vim.api.nvim_create_autocmd("FileType", {
-		-- 		pattern = allowed_fts,
-		-- 		callback = function(args)
-		-- 			if vim.api.nvim_buf_line_count(args.buf) > 10000 then
-		-- 				return
-		-- 			end
-		--
-		-- 			-- Prefer angular parser for Angular component templates when available
-		-- 			if ensured["angular"] and args.file and args.file:match("%.component%.html$") then
-		-- 				vim.treesitter.start(args.buf, "angular")
-		-- 			else
-		-- 				vim.treesitter.start(args.buf)
-		-- 			end
-		-- 		end,
-		-- 	})
-		--
-		-- 	-- vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-		-- 	-- 	pattern = { "*" },
-		-- 	-- 	callback = function(args)
-		-- 	-- 		if vim.api.nvim_buf_line_count(args.buf) > 10000 then
-		-- 	-- 			return
-		-- 	-- 		end
-		-- 	--
-		-- 	-- 		if args.file:match("%.component.html$") then
-		-- 	-- 			-- vim.bo[args.buf].filetype = "angularhtml"
-		-- 	-- 			vim.treesitter.start(nil, "angular")
-		-- 	-- 		else
-		-- 	-- 			vim.treesitter.start()
-		-- 	-- 		end
-		-- 	--
-		-- 	-- 		-- if vim.treesitter and type(vim.treesitter.foldexpr) == "function" then
-		-- 	-- 		-- 	vim.bo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-		-- 	-- 		-- end
-		-- 	--
-		-- 	-- 		-- local ok, nvim_ts = pcall(require, "nvim-treesitter")
-		-- 	-- 		-- if ok and type(nvim_ts.indentexpr) == "function" then
-		-- 	-- 		-- 	vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-		-- 	-- 		-- end
-		-- 	-- 	end,
-		-- 	-- })
-		-- end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	{
 		"MeanderingProgrammer/treesitter-modules.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		setup = function()
+			-- vim.api.nvim_create_autocmd("FileType", {
+			-- 	pattern = languages,
+			-- 	callback = function()
+			-- 		vim.treesitter.start()
+			-- 		vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+			-- 		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			-- 	end,
+			-- })
+
 			vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 				pattern = { "*" },
 				callback = function(args)
@@ -93,5 +56,10 @@ return {
 			indent = { enable = true },
 			incremental_selection = { enable = true },
 		},
+		-- config = function(_, opts)
+		-- 	require("nvim-treesitter").setup(opts)
+		--
+		-- 	require("nvim-treesitter").install(opts.ensure_installed)
+		-- end,
 	},
 }

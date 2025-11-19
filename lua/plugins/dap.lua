@@ -26,9 +26,9 @@ return {
 				type = "executable",
 				command = "C:/Users/morganj/AppData/Local/nvim-data/mason/bin/netcoredbg.cmd",
 				args = { "--interpreter=vscode" },
-				-- options = {
-				-- 	detached = false,
-				-- },
+				options = {
+					detached = false,
+				},
 			},
 			["pwa-node"] = {
 				type = "server",
