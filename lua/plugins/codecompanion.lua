@@ -6,7 +6,10 @@ return {
 		"nvim-lua/plenary.nvim",
 		{
 			"ravitemer/mcphub.nvim",
-			opts = {},
+			build = "bundled_build.lua",
+			opts = {
+				use_bundled_binary = true,
+			},
 		},
 		{
 			"zbirenbaum/copilot.lua",
