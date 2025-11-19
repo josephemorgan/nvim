@@ -54,37 +54,6 @@ return {
 					desc = "[n]ew chat",
 				},
 				{
-					"<leader>ci",
-					function()
-						local mode = vim.fn.mode()
-						vim.ui.input({ prompt = "Inline chat prompt: " }, function(input)
-							if not input or input == "" then
-								return
-							end
-							local code = ""
-							if mode == "v" or mode == "V" or mode == "\22" then -- visual, line, block
-								local bufnr = vim.api.nvim_get_current_buf()
-								local start_pos = vim.fn.getpos("'<")
-								local end_pos = vim.fn.getpos("'>")
-								local lines = vim.api.nvim_buf_get_text(
-									bufnr,
-									start_pos[2] - 1,
-									start_pos[3] - 1,
-									end_pos[2] - 1,
-									end_pos[3],
-									{}
-								)
-								code = table.concat(lines, "\n")
-							end
-							local chat_cmd =
-								string.format("CodeCompanionChat '%s%s%s'", input, code ~= "" and "\n\n" or "", code)
-							vim.cmd(chat_cmd)
-						end)
-					end,
-					desc = "[i]inline chat",
-					mode = { "n", "v" },
-				},
-				{
 					"<leader>ca",
 					"<cmd>CodeCompanionChat Add<cr>",
 					desc = "[a]dd to chat",
@@ -162,9 +131,20 @@ return {
 				{
 					"<leader>pr",
 					function()
-						require("telescope").extensions.file_browser.file_browser()
+						require("telescope").extensions.file_browser.file_browser({
+							path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
+							prompt_path = true,
+							select_buffer = true,
+						})
 					end,
 					desc = "b[r]owse files",
+				},
+				{
+					"<leader>pR",
+					function()
+						require("telescope").extensions.file_browser.file_browser()
+					end,
+					desc = "browse project [r]oot files",
 				},
 			},
 
@@ -386,7 +366,7 @@ return {
 			{
 				"<leader>tt",
 				function()
-					require("overseer").toggle()
+					require("overseer").toggle({ direction = "left" })
 				end,
 				desc = "[t]oggle tasks",
 			},
