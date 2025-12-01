@@ -2,6 +2,7 @@ return {
 	"olimorris/codecompanion.nvim",
 	dev = false,
 	lazy = false,
+	branch = "v18",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{
@@ -49,12 +50,31 @@ return {
 		adapters = {
 			http = {
 				tavily = function()
+					local key = os.getenv("TAVILY_API_KEY")
+
 					return require("codecompanion.adapters").extend("tavily", {
 						env = {
-							api_key = "TAVILY_API_KEY",
+							api_key = key,
 						},
 					})
 				end,
+			},
+		},
+		rules = {
+			opts = {
+				chat = {
+					enabled = true,
+				},
+			},
+			default = {
+				files = {
+					"AGENTS.md",
+				},
+			},
+			copilot = {
+				files = {
+					".github/copilot-instructions.md",
+				},
 			},
 		},
 	},

@@ -4,6 +4,7 @@ return {
 	---@type conform.setupOpts
 	opts = {
 		format_on_save = function(buf)
+			vim.notify("Autoformat on save for buffer " .. buf)
 			if vim.g.disable_autoformat == true then
 				return
 			end
@@ -19,6 +20,7 @@ return {
 			dart = { lsp_format = "prefer", async = true },
 			cs = { "csharpier" },
 			json = { "fixjson" },
+			nginx = { "nginxfmt" },
 			["*"] = { "trim_whitespace" },
 		},
 		formatters = {
