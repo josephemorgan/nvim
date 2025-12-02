@@ -4,7 +4,6 @@ return {
 	---@type conform.setupOpts
 	opts = {
 		format_on_save = function(buf)
-			vim.notify("Autoformat on save for buffer " .. buf)
 			if vim.g.disable_autoformat == true then
 				return
 			end
