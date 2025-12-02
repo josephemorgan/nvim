@@ -1,21 +1,19 @@
 return {
-	name = "dotnet run",
-	desc = "Run a .dotnet application",
+	name = "dotnet watch",
+	desc = "Watch and run a .dotnet application",
 	condition = {
 		filetype = { "cs" },
 	},
 	builder = function()
-		local workspaceRoot = vim.fn.getcwd()
-
 		return {
 			cmd = { "dotnet" },
 			args = {
+				"watch",
 				"run",
 				"--property",
 				"GenerateFullPaths=true",
 			},
 			components = {
-				{ "restart_on_save", paths = { workspaceRoot } },
 				-- { "on_output_quickfix", set_diagnostics = true },
 				-- "on_result_diagnostics",
 			},
