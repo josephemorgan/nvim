@@ -2,16 +2,9 @@ return {
 	"olimorris/codecompanion.nvim",
 	dev = false,
 	lazy = false,
-	branch = "v18",
+	-- branch = "v18",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		{
-			"ravitemer/mcphub.nvim",
-			build = "bundled_build.lua",
-			opts = {
-				use_bundled_binary = true,
-			},
-		},
 		{
 			"zbirenbaum/copilot.lua",
 			cmd = "Copilot",

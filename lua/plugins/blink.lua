@@ -16,7 +16,20 @@ return {
 			},
 		},
 		sources = {
-			default = { "lsp", "path", "snippets", "codecompanion" },
+			-- default = { "lsp", "path", "snippets", "codecompanion" },
+			default = function()
+				local success, node = pcall(vim.treesitter.get_node)
+
+				if
+					success
+					and node
+					and vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type())
+				then
+					return { "buffer", "codecompanion" }
+				else
+					return { "lsp", "path", "snippets", "codecompanion" }
+				end
+			end,
 			providers = {
 				snippets = {
 					should_show_items = function(ctx)
@@ -30,5 +43,4 @@ return {
 		},
 		fuzzy = { implementation = "prefer_rust_with_warning" },
 	},
-	opts_extend = { "sources.default" },
 }
