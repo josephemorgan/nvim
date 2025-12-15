@@ -82,72 +82,6 @@ return {
 				},
 			},
 
-			-- Pickers
-			{
-				"<leader>p",
-				group = "[p]ick",
-				{
-					"<c-p>",
-					function()
-						require("telescope.builtin").find_files()
-					end,
-					desc = "Find files",
-				},
-				{
-					"<leader>pb",
-					function()
-						require("telescope.builtin").buffers()
-					end,
-					desc = "List [b]uffers",
-				},
-				{
-					"<leader>pd",
-					function()
-						require("snacks").bufdelete.delete()
-					end,
-					desc = "[d]elete buffer",
-				},
-				{
-					"<leader>pt",
-					function()
-						require("telescope.builtin").builtin()
-					end,
-					desc = "[t]elescope",
-				},
-				{
-					"<leader>ph",
-					function()
-						require("telescope.builtin").help_tags()
-					end,
-					desc = "[t]elescope",
-				},
-				{
-					"<leader>pp",
-					function()
-						require("telescope").extensions.project.project()
-					end,
-					desc = "[p]rojects",
-				},
-				{
-					"<leader>pr",
-					function()
-						require("telescope").extensions.file_browser.file_browser({
-							path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)),
-							prompt_path = true,
-							select_buffer = true,
-						})
-					end,
-					desc = "b[r]owse files",
-				},
-				{
-					"<leader>pR",
-					function()
-						require("telescope").extensions.file_browser.file_browser()
-					end,
-					desc = "browse project [r]oot files",
-				},
-			},
-
 			{
 				"<leader>r",
 				group = "T[r]ouble",
@@ -307,23 +241,94 @@ return {
 					end,
 					desc = "[d]elete buffer",
 				},
+
+				{
+					"<leader>be",
+					function()
+						require("snacks").picker.explorer()
+					end,
+					desc = "[e]xplorer",
+				},
 			},
 
 			-- Search
 			{ "<leader>s", group = "[s]earch" },
 			{
-				"<leader>ss",
+				"<c-p>",
 				function()
-					require("telescope.builtin").current_buffer_fuzzy_find()
+					require("snacks").picker.smart()
 				end,
-				desc = "[s]earch buffer",
+				desc = "Smart Search",
 			},
 			{
-				"<leader>sf",
+				"<leader>sb",
 				function()
-					require("telescope.builtin").live_grep()
+					require("snacks").picker.buffers()
 				end,
-				desc = "search [f]iles",
+				desc = "Search [b]uffers",
+			},
+			{
+				"<leader>ss",
+				function()
+					require("snacks").picker.lsp_symbols()
+				end,
+				desc = "Search workspace [S]ymbols",
+			},
+			{
+				"<leader>sS",
+				function()
+					require("snacks").picker.lsp_workspace_symbols()
+				end,
+				desc = "Search workspace [S]ymbols",
+			},
+			{
+				"<leader>sp",
+				function()
+					require("snacks").picker()
+				end,
+				desc = "Search [p]ickers",
+			},
+			{
+				"<leader>sl",
+				function()
+					require("snacks").picker.lines()
+				end,
+				desc = "search [l]ines in buffer",
+			},
+			{
+				"<leader>sg",
+				function()
+					require("snacks").picker.grep()
+				end,
+				desc = "search [g]rep",
+			},
+			{
+				"<leader>sr",
+				function()
+					require("snacks").picker.registers()
+				end,
+				desc = "find [r]egisters",
+			},
+			{
+				"<leader>sc",
+				function()
+					require("snacks").picker.registers()
+				end,
+				desc = "search [c]ommand history",
+			},
+			{
+				"<leader>sh",
+				function()
+					require("snacks").picker.help()
+				end,
+				desc = "search [h]elp",
+			},
+			{
+				"<leader>sp",
+				function()
+					require("snacks").picker.projects()
+				end,
+				desc = "search [p]rojects",
 			},
 
 			-- Jump Navigation
@@ -342,23 +347,6 @@ return {
 					require("flash").treesitter()
 				end,
 				desc = "Treesitter Jump",
-			},
-
-			-- Help
-			{ "<leader>h", group = "[H]elp" },
-			{
-				"<leader>hh",
-				function()
-					require("telescope.builtin").help_tags()
-				end,
-				desc = "Search [h]elp",
-			},
-			{
-				"<leader>hm",
-				function()
-					require("telescope.builtin").man_pages()
-				end,
-				desc = "Search [m]anpages",
 			},
 
 			-- Tasks
@@ -410,13 +398,6 @@ return {
 				desc = "Signature [h]elp",
 			},
 			{
-				"<leader>lr",
-				function()
-					vim.lsp.buf.rename()
-				end,
-				desc = "[r]ename",
-			},
-			{
 				"<C-.>",
 				function()
 					vim.lsp.buf.code_action()
@@ -431,11 +412,18 @@ return {
 				desc = "Code [a]ction",
 			},
 			{
-				"<leader>lR",
+				"<leader>lr",
 				function()
-					require("telescope.builtin").lsp_references()
+					require("snacks").picker.lsp_references()
 				end,
 				desc = "Show [R]eferences",
+			},
+			{
+				"<leader>lR",
+				function()
+					vim.lsp.buf.rename()
+				end,
+				desc = "[r]ename",
 			},
 			{
 				"<leader>ln",
@@ -470,35 +458,35 @@ return {
 				{
 					"<leader>lgd",
 					function()
-						require("telescope.builtin").lsp_definitions()
+						require("snacks").picker.lsp_definitions()
 					end,
 					desc = "[d]efinitions",
 				},
 				{
 					"<f12>",
 					function()
-						require("telescope.builtin").lsp_definitions()
+						require("snacks").picker.lsp_definitions()
 					end,
 					desc = "[d]efinitions",
 				},
 				{
 					"<leader>lgr",
 					function()
-						require("telescope.builtin").lsp_references()
+						require("snacks").picker.lsp_references()
 					end,
 					desc = "[r]references",
 				},
 				{
 					"<S-f12>",
 					function()
-						require("telescope.builtin").lsp_references()
+						require("snacks").picker.lsp_references()
 					end,
 					desc = "[r]eferences",
 				},
 				{
 					"<leader>lgi",
 					function()
-						require("telescope.builtin").lsp_implementations()
+						require("snacks").picker.lsp_implementations()
 					end,
 					desc = "[i]mplementations",
 				},

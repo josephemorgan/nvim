@@ -14,6 +14,8 @@ local languages = {
 	"scss",
 	"c_sharp",
 	"dart",
+	"yaml",
+	"regex",
 }
 
 return {

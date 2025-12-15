@@ -69,7 +69,8 @@ return {
 				},
 				project = {
 					base_dirs = {
-						"~/dev",
+						"X:/",
+						"~/AppData/Local/nvim/",
 					},
 				},
 			},
