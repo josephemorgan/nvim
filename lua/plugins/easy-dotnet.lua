@@ -4,10 +4,7 @@ return {
 	-- opts = {
 	-- 	debugger = {
 	-- 		--name if netcoredbg is in PATH or full path like 'C:\Users\gusta\AppData\Local\nvim-data\mason\bin\netcoredbg.cmd'
-	-- 		bin_path = "netcoredbg",
-	-- 	},
-	-- 	server = {
-	-- 		use_visual_studio = true,
+	-- 		bin_path = vim.fn.stdpath("data") .. "/mason/bin/netcoredbg.cmd",
 	-- 	},
 	-- },
 }
