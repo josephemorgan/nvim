@@ -1,3 +1,6 @@
+local dev_dir = os.getenv("DEV_DIR")
+local novim_config_dir = vim.fn.stdpath("config")
+
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -7,31 +10,6 @@ return {
 		opts = {
 			defaults = {
 				path_display = function(opts, path)
-					-- local tail = require("telescope.utils").path_tail(path)
-					-- return string.format("%s (%s)", tail, path)
-					-- local utils = require("telescope.utils")
-					-- local tail = utils.path_tail(path) -- filename.ext
-					-- local dir = path:sub(1, #path - #tail) -- path/to/dirs/
-					--
-					-- if dir == "" then
-					-- 	-- Nothing to dim (just a filename)
-					-- 	return tail
-					-- end
-					--
-					-- -- Compose "filename  path/to/dirs/"
-					-- -- local display = tail .. "  " .. dir
-					-- local display = dir .. tail
-					--
-					-- -- Highlight only the directory part as dimmed.
-					-- -- Indices are 0-based; start right after "tail  ".
-					-- local highlights = {
-					-- 	{
-					-- 		{ #dir + 2, #display },
-					-- 		"Comment", -- or "TelescopeResultsComment" if you prefer
-					-- 	},
-					-- }
-					--
-					-- return display, highlights
 					return path,
 						{
 							{
@@ -69,8 +47,8 @@ return {
 				},
 				project = {
 					base_dirs = {
-						"X:/",
-						"~/AppData/Local/nvim/",
+						dev_dir,
+						novim_config_dir,
 					},
 				},
 			},
