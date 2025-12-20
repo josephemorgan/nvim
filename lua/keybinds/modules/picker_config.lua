@@ -151,10 +151,11 @@ local telescope_config = {
 		t_builtin.marks(t_themes.get_ivy())
 	end,
 	explorer = function()
-		require("telescope").extensions.file_browser.file_browser(
-			t_themes.get_ivy(),
-			{ path = "%:p:h", select_buffer = true }
-		)
+		require("telescope").extensions.file_browser.file_browser({
+			path = "%:p:h",
+			select_buffer = true,
+			grouped = true,
+		})
 	end,
 }
 
