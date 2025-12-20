@@ -44,6 +44,7 @@ return {
 				file_browser = {
 					theme = "ivy",
 					respect_gitignore = false,
+					hijack_netrw = true,
 				},
 				project = {
 					base_dirs = {
