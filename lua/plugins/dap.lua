@@ -22,24 +22,13 @@ return {
 				command = "flutter",
 				args = { "debug_adapter" },
 			},
-			coreclr = {
-				type = "executable",
-				command = "C:/Users/morganj/AppData/Local/nvim-data/mason/bin/netcoredbg.cmd",
-				args = { "--interpreter=vscode" },
-				options = {
-					detached = false,
-				},
-			},
 			["pwa-node"] = {
 				type = "server",
 				host = "localhost",
 				port = "${port}",
 				executable = {
-					command = "node",
-					args = {
-						vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
-						"${port}",
-					},
+					command = "js-debug-adapter.cmd",
+					args = { "${port}" },
 				},
 			},
 			["pwa-chrome"] = {
@@ -47,11 +36,8 @@ return {
 				host = "localhost",
 				port = "${port}",
 				executable = {
-					command = "node",
-					args = {
-						vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
-						"${port}",
-					},
+					command = "js-debug-adapter.cmd",
+					args = { "${port}" },
 				},
 			},
 			nlua = function(callback, config)
@@ -71,32 +57,32 @@ return {
 		for _, language in ipairs(js_filetypes) do
 			if not dap.configurations[language] then
 				dap.configurations[language] = {
-					{
-						type = "pwa-node",
-						request = "launch",
-						name = "Launch file",
-						program = "${file}",
-						cwd = "${workspaceFolder}",
-					},
-					{
-						type = "pwa-node",
-						request = "attach",
-						name = "Attach",
-						processId = require("dap.utils").pick_process,
-						cwd = "${workspaceFolder}",
-					},
-					{
-						type = "pwa-chrome",
-						name = "Attach to Chrome",
-						request = "attach",
-						cwd = "${workspaceFolder}",
-						sourceMaps = true,
-						protocol = "inspector",
-						port = 9222,
-						webRoot = "${workspaceFolder}",
-						-- urlFilter = "http://localhost:4200/*", -- alternative to url
-						trace = true,
-					},
+					-- {
+					-- 	type = "pwa-node",
+					-- 	request = "launch",
+					-- 	name = "Launch file",
+					-- 	program = "${file}",
+					-- 	cwd = "${workspaceFolder}",
+					-- },
+					-- {
+					-- 	type = "pwa-node",
+					-- 	request = "attach",
+					-- 	name = "Attach",
+					-- 	processId = require("dap.utils").pick_process,
+					-- 	cwd = "${workspaceFolder}",
+					-- },
+					-- {
+					-- 	type = "pwa-chrome",
+					-- 	name = "Attach to Chrome",
+					-- 	request = "attach",
+					-- 	cwd = "${workspaceFolder}",
+					-- 	sourceMaps = true,
+					-- 	protocol = "inspector",
+					-- 	port = 9222,
+					-- 	webRoot = "${workspaceFolder}",
+					-- 	-- urlFilter = "http://localhost:4200/*", -- alternative to url
+					-- 	trace = true,
+					-- },
 					{
 						type = "pwa-chrome",
 						request = "launch",
@@ -124,22 +110,22 @@ return {
 					toolArgs = { "-d", "emulator-5554" },
 				},
 			},
-			cs = {
-				{
-					type = "coreclr",
-					name = "launch - netcoredbg",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
-					end,
-				},
-				{
-					type = "coreclr",
-					name = "attach - netcoredbg",
-					request = "attach",
-					processId = require("dap.utils").pick_process,
-				},
-			},
+			-- cs = {
+			-- 	{
+			-- 		type = "coreclr",
+			-- 		name = "launch - netcoredbg",
+			-- 		request = "launch",
+			-- 		program = function()
+			-- 			return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
+			-- 		end,
+			-- 	},
+			-- 	{
+			-- 		type = "coreclr",
+			-- 		name = "attach - netcoredbg",
+			-- 		request = "attach",
+			-- 		processId = require("dap.utils").pick_process,
+			-- 	},
+			-- },
 			lua = {
 				{
 					type = "nlua",

@@ -64,7 +64,7 @@ return {
 		function()
 			picker_config.lsp_references()
 		end,
-		desc = "Show [R]eferences",
+		desc = "Show [r]eferences",
 	},
 	{
 		"<S-f12>",
@@ -78,7 +78,7 @@ return {
 		function()
 			picker_config.lsp_definitions()
 		end,
-		desc = "Show [D]efinitions",
+		desc = "Show [d]efinitions",
 	},
 	{
 		"<f12>",
@@ -92,13 +92,13 @@ return {
 		function()
 			picker_config.lsp_type_definitions()
 		end,
-		desc = "Show [D]efinitions",
+		desc = "Show Type [D]efinitions",
 	},
 	{
 		"<leader>li",
 		function()
 			picker_config.lsp_implementations()
 		end,
-		desc = "Show [D]efinitions",
+		desc = "Show [i]mplementations",
 	},
 }

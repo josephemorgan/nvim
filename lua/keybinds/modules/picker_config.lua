@@ -11,6 +11,7 @@ local snacks = require("snacks")
 ---@field lsp_definitions fun()
 ---@field lsp_type_definitions fun()
 ---@field lsp_implementations fun()
+---@field diagnostics fun()
 ---@field pickers fun()
 ---@field lines fun()
 ---@field grep fun()
@@ -49,6 +50,9 @@ local snacks_config = {
 	end,
 	lsp_implementations = function()
 		snacks.picker.lsp_implementations()
+	end,
+	diagnostics = function()
+		snacks.picker.diagnostics()
 	end,
 	pickers = function()
 		snacks.picker()
@@ -114,7 +118,7 @@ local telescope_config = {
 	lsp_implementations = function()
 		t_builtin.lsp_implementations(t_themes.get_ivy())
 	end,
-	lsp_diagnostics = function()
+	diagnostics = function()
 		t_builtin.diagnostics(t_themes.get_ivy())
 	end,
 	pickers = function()

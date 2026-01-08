@@ -15,13 +15,18 @@ return {
 	},
 	{
 		"<leader>ss",
-		desc = "Search workspace [S]ymbols",
+		desc = "Search Document [S]ymbols",
 		picker_config.lsp_symbols,
 	},
 	{
 		"<leader>sS",
 		desc = "Search workspace [S]ymbols",
 		picker_config.workspace_lsp_symbols,
+	},
+	{
+		"<leader>sd",
+		desc = "Search [d]iagnostics",
+		picker_config.diagnostics,
 	},
 	{
 		"<leader>sp",
