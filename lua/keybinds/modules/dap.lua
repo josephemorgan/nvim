@@ -2,6 +2,13 @@ return {
 	"<leader>d",
 	group = "[d]ebug",
 	{
+		"<leader>ds",
+		function()
+			require("telescope").extensions.session_picker.dap_sessions()
+		end,
+		desc = "Pick [s]ession",
+	},
+	{
 		"<f5>",
 		function()
 			require("dap").continue()

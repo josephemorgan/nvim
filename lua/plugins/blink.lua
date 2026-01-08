@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = "rafamadriz/friendly-snippets",
+	dependencies = { "rafamadriz/friendly-snippets" },
 	version = "*",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
@@ -32,6 +32,14 @@ return {
 			end,
 			providers = {
 				snippets = {
+					opts = {
+						friendly_snippets = true,
+						extended_filetypes = {
+							dart = { "flutter" },
+							javascript = { "angular" },
+							htmlangular = { "angular" },
+						},
+					},
 					should_show_items = function(ctx)
 						return ctx.trigger.initial_kind ~= "trigger_character"
 					end,
