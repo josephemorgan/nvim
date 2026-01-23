@@ -51,7 +51,16 @@ return {
 	---@type snacks.Config
 	opts = {
 		bigfile = { enabled = true },
-		input = { enabled = true },
+		---@class snacks.zen.Config
+		zen = {
+			toggles = {
+				dim = false,
+				git_signs = false,
+				mini_diff_signs = false,
+				diagnostics = true,
+			},
+		},
+		input = { enabled = false },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
 		scroll = { enabled = false },
@@ -64,16 +73,16 @@ return {
 		explorer = {
 			replace_netrw = true,
 		},
-		picker = {
-			sources = {
-				explorer = {},
-			},
-			projects = {
-				finder = "recent_projects",
-				format = "file",
-				-- dev = { "X:/dev/" },
-			},
-		},
+		-- picker = {
+		-- 	sources = {
+		-- 		explorer = {},
+		-- 	},
+		-- 	projects = {
+		-- 		finder = "recent_projects",
+		-- 		format = "file",
+		-- 		-- dev = { "X:/dev/" },
+		-- 	},
+		-- },
 		words = {
 			enabled = true,
 		},

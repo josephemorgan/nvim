@@ -63,6 +63,8 @@ vim.opt.wrap = false
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 vim.o.exrc = true
 
+require("ui")
+
 -- local function fold_virt_text(result, s, lnum, coloff)
 -- 	if not coloff then
 -- 		coloff = 0

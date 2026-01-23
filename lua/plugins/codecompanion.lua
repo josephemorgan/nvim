@@ -30,6 +30,14 @@ return {
 		},
 	},
 	opts = {
+		prompt_library = {
+			markdown = {
+				dirs = {
+					vim.fn.getcwd() .. "/.prompts",
+					vim.fn.stdpath("config") .. "/prompts",
+				},
+			},
+		},
 		extensions = {
 			mcphub = {
 				callback = "mcphub.extensions.codecompanion",
