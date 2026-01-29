@@ -2,7 +2,6 @@ return {
 	"olimorris/codecompanion.nvim",
 	dev = false,
 	lazy = false,
-	-- branch = "v18",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		{
