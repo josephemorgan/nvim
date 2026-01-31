@@ -164,4 +164,4 @@ local telescope_config = {
 }
 
 ---@type PickerConfig
-return vim.loop.os_uname().version:match("Windows") and telescope_config or snacks_config
+return telescope_config

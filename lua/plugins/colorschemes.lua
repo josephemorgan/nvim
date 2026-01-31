@@ -31,6 +31,10 @@ return {
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
+		opts = {
+			style = "storm",
+			transparent = true,
+		},
 	},
 	{
 		"nyoom-engineering/oxocarbon.nvim",

@@ -24,11 +24,11 @@ return {
 		opts = {
 			diagnostics = { virtual_text = { prefix = "icons" } },
 			servers = {
-				-- clangd = {
-				-- 	init_options = {
-				-- 		compilationDatabasePath = "./",
-				-- 	},
-				-- },
+				clangd = {
+					init_options = {
+						compilationDatabasePath = "./",
+					},
+				},
 				pyright = {},
 				ts_ls = {},
 				angularls = {},
