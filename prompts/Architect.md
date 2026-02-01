@@ -1,5 +1,5 @@
 ---
-name: Plan
+name: Architect
 interaction: chat
 description: Create detailed implementation plans without making changes
 opts:
@@ -7,7 +7,7 @@ opts:
   auto_submit: false
   adapter:
     name: copilot
-    model: claude-opus-4.5
+    model: claude-sonnet-4.5
 ---
 
 ## system

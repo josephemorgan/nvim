@@ -1,3 +1,5 @@
+local pubCacheDir = vim.env.PUB_CACHE or vim.fn.expand("$HOME/AppData/Local/Pub/Cache")
+
 return {
 	"nvim-flutter/flutter-tools.nvim",
 	ft = "dart",
@@ -5,7 +7,7 @@ return {
 		"nvim-lua/plenary.nvim",
 		"stevearc/dressing.nvim", -- optional for vim.ui.select
 	},
-	dev = false,
+	dev = true,
 	opts = {
 		decorations = {
 			statusline = {
@@ -32,7 +34,7 @@ return {
 		lsp = {
 			settings = {
 				lineLength = 120,
-				analysisExcludedFolders = { vim.fn.expand("$HOME/AppData/Local/Pub/Cache") },
+				analysisExcludedFolders = { pubCacheDir },
 			},
 			capabilities = {
 				textDocument = {
