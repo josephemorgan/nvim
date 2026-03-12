@@ -38,4 +38,11 @@ return {
 		end,
 		desc = "[d]elete buffer",
 	},
+	{
+		"<leader>bn",
+		function()
+			vim.cmd("Navbuddy")
+		end,
+		desc = "buffer [n]av",
+	},
 }

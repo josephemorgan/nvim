@@ -12,7 +12,7 @@ return {
 	builder = function(params)
 		return {
 			cwd = "X:/dev/cafdexgo-web/",
-			cmd = { "powershell.exe" },
+			cmd = { "pwsh" },
 
 			args = {
 				"-ExecutionPolicy",

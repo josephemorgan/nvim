@@ -27,10 +27,16 @@ return {
 				then
 					return { "buffer", "codecompanion" }
 				else
-					return { "lsp", "path", "snippets", "codecompanion" }
+					return { "lazydev", "lsp", "path", "snippets", "codecompanion" }
 				end
 			end,
 			providers = {
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					-- make lazydev completions top priority (see `:h blink.cmp`)
+					score_offset = 100,
+				},
 				snippets = {
 					opts = {
 						friendly_snippets = true,

@@ -9,16 +9,6 @@ return {
 		},
 	},
 	{
-		"folke/lazydev.nvim",
-		ft = "lua",
-		opts = {
-			library = {
-				-- Load luvit types when the `vim.uv` word is found
-				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-			},
-		},
-	},
-	{
 		"neovim/nvim-lspconfig",
 		lazy = false,
 		dependencies = {
@@ -42,15 +32,20 @@ return {
 				pyright = {},
 				ts_ls = {},
 				angularls = {},
-				tailwindcss_language_server = {},
+				tailwindcss = {},
 				emmet_language_server = {},
-				powershell_editor_services = {},
 				-- Simplified lua_ls config - lazydev handles the vim.* symbols
 				lua_ls = {
 					settings = {
 						Lua = {
 							workspace = {
 								checkThirdParty = false,
+								library = {
+									-- See the configuration section for more details
+									-- Load luvit types when the `vim.uv` word is found
+									vim.env.VIMRUNTIME,
+									{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+								},
 							},
 							codeLens = {
 								enable = true,

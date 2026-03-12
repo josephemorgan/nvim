@@ -7,7 +7,7 @@ return {
 		"nvim-lua/plenary.nvim",
 		"stevearc/dressing.nvim", -- optional for vim.ui.select
 	},
-	dev = true,
+	dev = false,
 	opts = {
 		decorations = {
 			statusline = {
