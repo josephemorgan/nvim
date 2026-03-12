@@ -29,6 +29,11 @@ return {
 		},
 	},
 	opts = {
+		interactions = {
+			chat = {
+				auto_scroll = false,
+			},
+		},
 		prompt_library = {
 			markdown = {
 				dirs = {
@@ -41,13 +46,22 @@ return {
 			mcphub = {
 				callback = "mcphub.extensions.codecompanion",
 				opts = {
-					make_vars = true,
+					make_vars = false,
 					make_slash_commands = true,
 					show_result_in_chat = true,
 				},
 			},
 		},
 		adapters = {
+			acp = {
+				claude_code = function()
+					return require("codecompanion.adapters").extend("claude_code", {
+						env = {
+							CLAUDE_CODE_OAUTH_TOKEN = os.getenv("CLAUDE_CODE_TOKEN"),
+						},
+					})
+				end,
+			},
 			http = {
 				tavily = function()
 					local key = os.getenv("TAVILY_API_KEY")

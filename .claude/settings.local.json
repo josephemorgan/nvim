@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__acp__Edit",
+      "Bash(powershell.exe:*)",
+      "Bash(nvim:*)",
+      "Bash(neovide:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:neovim.io)"
+    ]
+  }
+}
