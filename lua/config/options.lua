@@ -4,7 +4,7 @@ local M = {}
 function M.setup()
 	-- Folding
 	vim.o.foldmethod = "expr"
-	vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+	vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 	vim.o.foldenable = true
 	vim.o.foldlevel = 4
 

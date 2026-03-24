@@ -15,6 +15,7 @@ return {
 	lazy = false,
 	config = function()
 		local dap = require("dap")
+		dap.defaults.fallback.switchbuf = "useopen,uselast"
 
 		local adapters = {
 			dart = {
@@ -53,48 +54,56 @@ return {
 		local js_filetypes = { "javascript", "typescript" }
 		vscode.type_to_filetypes["node"] = js_filetypes
 		vscode.type_to_filetypes["pwa-node"] = js_filetypes
+		vscode.type_to_filetypes["pwa-chrome"] = js_filetypes
+		vscode.type_to_filetypes["chrome"] = js_filetypes
 
 		for _, language in ipairs(js_filetypes) do
 			if not dap.configurations[language] then
 				dap.configurations[language] = {
-					-- {
-					-- 	type = "pwa-node",
-					-- 	request = "launch",
-					-- 	name = "Launch file",
-					-- 	program = "${file}",
-					-- 	cwd = "${workspaceFolder}",
-					-- },
-					-- {
-					-- 	type = "pwa-node",
-					-- 	request = "attach",
-					-- 	name = "Attach",
-					-- 	processId = require("dap.utils").pick_process,
-					-- 	cwd = "${workspaceFolder}",
-					-- },
-					-- {
-					-- 	type = "pwa-chrome",
-					-- 	name = "Attach to Chrome",
-					-- 	request = "attach",
-					-- 	cwd = "${workspaceFolder}",
-					-- 	sourceMaps = true,
-					-- 	protocol = "inspector",
-					-- 	port = 9222,
-					-- 	webRoot = "${workspaceFolder}",
-					-- 	-- urlFilter = "http://localhost:4200/*", -- alternative to url
-					-- 	trace = true,
-					-- },
 					{
 						type = "pwa-chrome",
 						request = "launch",
-						name = "Launch Chrome and Attach",
+						name = "Launch Chrome (Angular)",
 						url = "https://localhost:4200",
-						userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdata",
 						webRoot = "${workspaceFolder}",
-						trace = true,
+						sourceMaps = true,
+						resolveSourceMapLocations = {
+							"${workspaceFolder}/**",
+							"!**/node_modules/**",
+						},
+						skipFiles = {
+							"<node_internals>/**",
+							"**/node_modules/**",
+						},
+						userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdata",
+					},
+					{
+						type = "pwa-chrome",
+						request = "attach",
+						name = "Attach to Chrome",
+						port = 9222,
+						webRoot = "${workspaceFolder}",
+						sourceMaps = true,
+						resolveSourceMapLocations = {
+							"${workspaceFolder}/**",
+							"!**/node_modules/**",
+						},
+						skipFiles = {
+							"<node_internals>/**",
+							"**/node_modules/**",
+						},
 					},
 				}
 			end
 		end
+
+		-- Load per-project .vscode/launch.json if present
+		vscode.load_launchjs(nil, {
+			["pwa-chrome"] = js_filetypes,
+			["pwa-node"] = js_filetypes,
+			["chrome"] = js_filetypes,
+			["node"] = js_filetypes,
+		})
 
 		local configurations = {
 			dart = {

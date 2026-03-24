@@ -8,30 +8,24 @@ return {
 			"zbirenbaum/copilot.lua",
 			cmd = "Copilot",
 			event = "InsertEnter",
-			opts = {
-				panel = {
-					enabled = false,
-				},
-				suggestion = {
-					enabled = true,
-					auto_trigger = true,
-					hide_during_completion = true,
-					debounce = 75,
-				},
-				filetypes = {
-					yaml = false,
-					markdown = false,
-					help = false,
-				},
-				copilot_node_command = "node", -- Node.js version must be > 18.x
-				server_opts_overrides = {},
-			},
+			opts = {},
 		},
 	},
 	opts = {
 		interactions = {
 			chat = {
 				auto_scroll = false,
+			},
+			cli = {
+				agent = "claude_code",
+				agents = {
+					claude_code = {
+						cmd = "claude",
+						args = {},
+						description = "Claude Code CLI",
+						provider = "terminal",
+					},
+				},
 			},
 		},
 		prompt_library = {
@@ -55,9 +49,10 @@ return {
 		adapters = {
 			acp = {
 				claude_code = function()
+					local token = os.getenv("CLAUDE_CODE_TOKEN")
 					return require("codecompanion.adapters").extend("claude_code", {
 						env = {
-							CLAUDE_CODE_OAUTH_TOKEN = os.getenv("CLAUDE_CODE_TOKEN"),
+							CLAUDE_CODE_OAUTH_TOKEN = token,
 						},
 					})
 				end,

@@ -7,7 +7,12 @@
       "Bash(neovide:*)",
       "WebSearch",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:neovim.io)"
+      "WebFetch(domain:neovim.io)",
+      "Bash(find /c/Users/MorganJ/AppData/Local/nvim/ -type f -name *.md)",
+      "Bash(gh search:*)",
+      "Bash(gh issue:*)",
+      "Bash(where gh:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }
