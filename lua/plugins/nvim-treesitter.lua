@@ -39,10 +39,5 @@ return {
 			-- indent = { enable = true },
 			incremental_selection = { enable = true },
 		},
-		-- config = function(_, opts)
-		-- 	require("nvim-treesitter").setup(opts)
-		--
-		-- 	require("nvim-treesitter").install(opts.ensure_installed)
-		-- end,
 	},
 }

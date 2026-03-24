@@ -111,4 +111,19 @@ return {
 		end,
 		desc = "Treesitter Jump",
 	},
+	{
+		"<C-Space>",
+		require("treesitter-modules").init_selection,
+		mode = { "n" },
+	},
+	{
+		"<C-Space>",
+		require("treesitter-modules").node_incremental,
+		mode = { "v" },
+	},
+	{
+		"<C-S-Space>",
+		require("treesitter-modules").node_decremental(),
+		mode = { "v" },
+	},
 }
