@@ -5,20 +5,32 @@ return {
 	{
 		"<S-Tab>",
 		mode = { "i" },
-		function()
-			if require("copilot.suggestion").is_visible() then
-				require("copilot.suggestion").accept()
-			end
-		end,
+		vim.lsp.inline_completion.get,
 		desc = "Accept Copilot Suggestion",
 	},
 	{
 		"<S-Right>",
 		mode = { "i" },
 		function()
-			if require("copilot.suggestion").is_visible() then
-				require("copilot.suggestion").accept_word()
-			end
+			vim.lsp.inline_completion.get({
+				on_accept = function(item)
+					-- Extract string value from insert_text (handles both string and lsp.StringValue)
+					local insert_text = type(item.insert_text) == "table" and item.insert_text.value or item.insert_text
+
+					if type(insert_text) ~= "string" then
+						return nil
+					end
+
+					---@cast insert_text string
+
+					local first_word = insert_text:match("%S+")
+					if first_word then
+						return first_word
+					end
+
+					return nil
+				end,
+			})
 		end,
 		desc = "Accept Copilot Suggestion Word",
 	},
@@ -35,15 +47,17 @@ return {
 		desc = "Toggle [c]hat",
 	},
 	{
-		"<leader>cn",
-		"<cmd>CodeCompanionChat<cr>",
-		desc = "[n]ew chat",
+		"<leader>cp",
+		function()
+			return require("codecompanion").cli({ prompt = true })
+		end,
+		desc = "[p]rompt codecompanion agent",
+		mode = { "n", "v" },
 	},
 	{
-		"<leader>ca",
-		"<cmd>CodeCompanionChat Add<cr>",
-		desc = "[a]dd to chat",
-		mode = { "v" },
+		"<leader>ct",
+		"<cmd>CodeCompanionCLI<cr>",
+		desc = "Open [t]erminal chat",
 	},
 	{
 		"<leader>ca",
@@ -51,5 +65,11 @@ return {
 			require("codecompanion").actions({})
 		end,
 		desc = "[a]ctions",
+	},
+	{
+		"<leader>ca",
+		"<cmd>CodeCompanionChat Add<cr>",
+		desc = "[a]dd to chat",
+		mode = { "v" },
 	},
 }

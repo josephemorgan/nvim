@@ -7,7 +7,7 @@ return {
 		"nvim-lua/plenary.nvim",
 		"stevearc/dressing.nvim", -- optional for vim.ui.select
 	},
-	dev = false,
+	dev = true,
 	opts = {
 		decorations = {
 			statusline = {
@@ -16,10 +16,10 @@ return {
 		},
 		debugger = {
 			enabled = true,
-			register_configurations = function()
-				require("dap").configurations.dart = {}
-				require("dap.ext.vscode").load_launchjs()
-			end,
+			-- register_configurations = function()
+			-- 	require("dap").configurations.dart = {}
+			-- 	require("dap.ext.vscode").load_launchjs()
+			-- end,
 		},
 		closing_tags = {
 			enabled = false,
