@@ -12,7 +12,10 @@
       "Bash(gh search:*)",
       "Bash(gh issue:*)",
       "Bash(where gh:*)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(cmd.exe /c type \"C:\\\\Users\\\\MorganJ\\\\AppData\\\\Local\\\\nvim-data\\\\mason\\\\packages\\\\js-debug-adapter\\\\js-debug-adapter.cmd\" 2>/dev/null)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs"
     ]
   }
 }

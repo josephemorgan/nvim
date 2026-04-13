@@ -18,6 +18,3 @@ require("config.autocmds").setup() -- Autocommands
 require("config.shell").setup() -- Platform-specific shell
 require("config.colorscheme").setup() -- Appearance
 require("config.ui").setup() -- UI overrides
-
--- Load keymaps after plugins to ensure all mappings are available
---

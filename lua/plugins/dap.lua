@@ -28,8 +28,11 @@ return {
 				host = "localhost",
 				port = "${port}",
 				executable = {
-					command = "js-debug-adapter.cmd",
-					args = { "${port}" },
+					command = "node",
+					args = {
+						vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+						"${port}",
+					},
 				},
 			},
 			["pwa-chrome"] = {
@@ -37,8 +40,11 @@ return {
 				host = "localhost",
 				port = "${port}",
 				executable = {
-					command = "js-debug-adapter.cmd",
-					args = { "${port}" },
+					command = "node",
+					args = {
+						vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+						"${port}",
+					},
 				},
 			},
 			nlua = function(callback, config)
@@ -67,15 +73,15 @@ return {
 						url = "https://localhost:4200",
 						webRoot = "${workspaceFolder}",
 						sourceMaps = true,
-						resolveSourceMapLocations = {
-							"${workspaceFolder}/**",
-							"!**/node_modules/**",
+						sourceMapPathOverrides = {
+							["localhost:4200/@fs/*"] = "*",
+							["localhost:4200/*"] = "${webRoot}/*",
 						},
 						skipFiles = {
 							"<node_internals>/**",
 							"**/node_modules/**",
 						},
-						userDataDir = "${workspaceFolder}/.vscode/vscode-chrome-debug-userdata",
+						userDataDir = true,
 					},
 					{
 						type = "pwa-chrome",
@@ -84,9 +90,9 @@ return {
 						port = 9222,
 						webRoot = "${workspaceFolder}",
 						sourceMaps = true,
-						resolveSourceMapLocations = {
-							"${workspaceFolder}/**",
-							"!**/node_modules/**",
+						sourceMapPathOverrides = {
+							["localhost:4200/@fs/*"] = "*",
+							["localhost:4200/*"] = "${webRoot}/*",
 						},
 						skipFiles = {
 							"<node_internals>/**",
@@ -98,12 +104,12 @@ return {
 		end
 
 		-- Load per-project .vscode/launch.json if present
-		vscode.load_launchjs(nil, {
-			["pwa-chrome"] = js_filetypes,
-			["pwa-node"] = js_filetypes,
-			["chrome"] = js_filetypes,
-			["node"] = js_filetypes,
-		})
+		-- vscode.load_launchjs(nil, {
+		-- 	["pwa-chrome"] = js_filetypes,
+		-- 	["pwa-node"] = js_filetypes,
+		-- 	["chrome"] = js_filetypes,
+		-- 	["node"] = js_filetypes,
+		-- })
 
 		local configurations = {
 			dart = {

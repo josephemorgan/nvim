@@ -85,7 +85,8 @@ return {
 		end,
 		desc = "[p]review",
 	},
-	{ "<leader>dv", "<cmd>DapViewToggle<cr>", desc = "DAP [v]iew" },
+	-- { "<leader>dv", "<cmd>DapViewToggle<cr>", desc = "DAP [v]iew" },
+	{ "<leader>dv", require("dapui").toggle, desc = "DAP [v]iew" },
 	{
 		"<leader>df",
 		function()

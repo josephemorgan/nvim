@@ -4,12 +4,6 @@ return {
 	lazy = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		{
-			"zbirenbaum/copilot.lua",
-			cmd = "Copilot",
-			event = "InsertEnter",
-			opts = {},
-		},
 	},
 	opts = {
 		interactions = {

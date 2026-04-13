@@ -14,32 +14,48 @@ return {
 		function()
 			vim.lsp.inline_completion.get({
 				on_accept = function(item)
-					-- Extract string value from insert_text (handles both string and lsp.StringValue)
-					local insert_text = type(item.insert_text) == "table" and item.insert_text.value or item.insert_text
+					local insert_text = item.insert_text
+					if type(insert_text) == "string" then
+						local range = item.range
+						if range then
+							local lines = vim.split(insert_text, "\n")
+							local current_lines = vim.api.nvim_buf_get_text(
+								range.start.buf,
+								range.start.row,
+								range.start.col,
+								range.end_.row,
+								range.end_.col,
+								{}
+							)
 
-					if type(insert_text) ~= "string" then
-						return nil
+							local row = 1
+							while row <= #lines and row <= #current_lines and lines[row] == current_lines[row] do
+								row = row + 1
+							end
+
+							local col = 1
+							while
+								row <= #lines
+								and col <= #lines[row]
+								and row <= #current_lines
+								and col <= #current_lines[row]
+								and lines[row][col] == current_lines[row][col]
+							do
+								col = col + 1
+							end
+
+							local word = string.match(lines[row]:sub(col), "%s*[^%s]%w*")
+							item.insert_text = table.concat(vim.list_slice(lines, 1, row - 1), "\n")
+								.. (row <= #current_lines and "" or "\n")
+								.. (row <= #lines and col <= #lines[row] and lines[row]:sub(1, col - 1) or "")
+								.. word
+						end
 					end
-
-					---@cast insert_text string
-
-					local first_word = insert_text:match("%S+")
-					if first_word then
-						return first_word
-					end
-
-					return nil
+					return item
 				end,
 			})
 		end,
 		desc = "Accept Copilot Suggestion Word",
-	},
-	{
-		"<leader>ct",
-		desc = "Toggle Copilot [t]rigger",
-		function()
-			require("copilot.suggestion").toggle_auto_trigger()
-		end,
 	},
 	{
 		"<leader>cc",

@@ -1,8 +1,6 @@
 return {
-    {
-        "igorlfs/nvim-dap-view",
-        ---@module 'dap-view'
-        ---@type dapview.Config
-        opts = {},
-    },
+	-- "igorlfs/nvim-dap-view",
+	-- ---@module 'dap-view'
+	-- ---@type dapview.Config
+	-- opts = {},
 }
