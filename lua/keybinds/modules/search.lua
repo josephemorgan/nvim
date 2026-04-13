@@ -123,7 +123,7 @@ return {
 	},
 	{
 		"<C-S-Space>",
-		require("treesitter-modules").node_decremental(),
+		require("treesitter-modules").node_decremental,
 		mode = { "v" },
 	},
 }

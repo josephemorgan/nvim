@@ -22,6 +22,7 @@ return {
 			},
 		},
 		opts = {
+			filewatching = "roslyn",
 			diagnostics = { virtual_text = { prefix = "icons" } },
 			servers = {
 				clangd = {
@@ -144,6 +145,69 @@ return {
 					end
 				end,
 			})
+
+			vim.api.nvim_create_user_command("CopilotAuth", function()
+				local client = vim.lsp.get_clients({ name = "copilot" })[1]
+				if not client then
+					vim.notify("Copilot LSP not running", vim.log.levels.ERROR)
+					return
+				end
+				client:request("signInInitiate", {}, function(err, result)
+					if err then
+						vim.notify("signInInitiate failed: " .. vim.inspect(err), vim.log.levels.ERROR)
+						return
+					end
+					if result.status == "AlreadySignedIn" then
+						vim.notify("Already signed in as " .. (result.user or "unknown"), vim.log.levels.INFO)
+						return
+					end
+					vim.notify(
+						("Go to %s and enter code: %s"):format(result.verificationUri, result.userCode),
+						vim.log.levels.INFO
+					)
+					vim.fn.setreg("+", result.userCode)
+					local timer = vim.uv.new_timer()
+					local interval = (result.interval or 5) * 1000
+					timer:start(
+						interval,
+						interval,
+						vim.schedule_wrap(function()
+							client:request(
+								"signInConfirm",
+								{ userCode = result.userCode },
+								function(confirm_err, confirm_result)
+									if confirm_err then
+										return
+									end
+									if confirm_result and confirm_result.status == "OK" then
+										timer:stop()
+										timer:close()
+										vim.notify(
+											"Copilot: signed in as " .. (confirm_result.user or "unknown"),
+											vim.log.levels.INFO
+										)
+									end
+								end
+							)
+						end)
+					)
+				end)
+			end, { desc = "Authenticate copilot-language-server with GitHub" })
+
+			vim.api.nvim_create_user_command("CopilotSignout", function()
+				local client = vim.lsp.get_clients({ name = "copilot" })[1]
+				if not client then
+					vim.notify("Copilot LSP not running", vim.log.levels.ERROR)
+					return
+				end
+				client:request("signOut", {}, function(err)
+					if err then
+						vim.notify("signOut failed: " .. vim.inspect(err), vim.log.levels.ERROR)
+						return
+					end
+					vim.notify("Copilot: signed out", vim.log.levels.INFO)
+				end)
+			end, { desc = "Sign out of copilot-language-server" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)

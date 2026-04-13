@@ -38,6 +38,28 @@ function M.setup()
 		desc = "Source .nvim.lua when changing working directory",
 	})
 
+	-- Markdown prose settings
+	vim.api.nvim_create_autocmd("FileType", {
+		group = augroup,
+		pattern = "markdown",
+		callback = function()
+			vim.opt_local.wrap = true
+			vim.opt_local.linebreak = true
+			vim.opt_local.spell = true
+			vim.opt_local.conceallevel = 2
+			vim.opt_local.formatoptions:append("t")
+
+			local map = function(lhs, rhs)
+				vim.keymap.set({ "n", "x" }, lhs, rhs, { buffer = true, expr = true, silent = true })
+			end
+			map("j", "v:count == 0 ? 'gj' : 'j'")
+			map("k", "v:count == 0 ? 'gk' : 'k'")
+			map("0", "'g0'")
+			map("$", "'g$'")
+		end,
+		desc = "Markdown prose quality-of-life settings",
+	})
+
 	-- Highlight yanked text (best practice)
 	vim.api.nvim_create_autocmd("TextYankPost", {
 		group = augroup,
