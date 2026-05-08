@@ -6,11 +6,6 @@ return {
 			opts.ensure_installed = opts.ensure_installed or {}
 			table.insert(opts.ensure_installed, "js-debug-adapter")
 		end,
-		-- "mxsdev/nvim-dap-vscode-js",
-		-- {
-		-- 	"Joakker/lua-json5",
-		-- 	build = "./install.sh",
-		-- },
 	},
 	lazy = false,
 	config = function()
@@ -103,14 +98,6 @@ return {
 			end
 		end
 
-		-- Load per-project .vscode/launch.json if present
-		-- vscode.load_launchjs(nil, {
-		-- 	["pwa-chrome"] = js_filetypes,
-		-- 	["pwa-node"] = js_filetypes,
-		-- 	["chrome"] = js_filetypes,
-		-- 	["node"] = js_filetypes,
-		-- })
-
 		local configurations = {
 			dart = {
 				{
@@ -125,22 +112,6 @@ return {
 					toolArgs = { "-d", "emulator-5554" },
 				},
 			},
-			-- cs = {
-			-- 	{
-			-- 		type = "coreclr",
-			-- 		name = "launch - netcoredbg",
-			-- 		request = "launch",
-			-- 		program = function()
-			-- 			return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
-			-- 		end,
-			-- 	},
-			-- 	{
-			-- 		type = "coreclr",
-			-- 		name = "attach - netcoredbg",
-			-- 		request = "attach",
-			-- 		processId = require("dap.utils").pick_process,
-			-- 	},
-			-- },
 			lua = {
 				{
 					type = "nlua",
