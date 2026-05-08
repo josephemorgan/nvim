@@ -5,10 +5,13 @@ return {
 		return vim.fn.executable("dotnet") == 1
 	end,
 	opts = {
-		debugger = {
-			mappings = {
-				open_variable_viewer = { lhs = "T", desc = "open variable viewer" },
-			},
+		server = {
+			log_level = "Verbose",
 		},
+		-- debugger = {
+		-- 	mappings = {
+		-- 		open_variable_viewer = { lhs = "T", desc = "open variable viewer" },
+		-- 	},
+		-- },
 	},
 }

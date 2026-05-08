@@ -16,6 +16,7 @@ return {
 			typescript = { "prettier" },
 			htmlangular = { "prettier" },
 			css = { "prettier" },
+			scss = { "prettier" },
 			dart = { lsp_format = "prefer", async = true },
 			cs = { "csharpier" },
 			json = { "fixjson" },

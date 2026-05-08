@@ -9,6 +9,8 @@ return {
 				"run",
 				"--property",
 				"GenerateFullPaths=true",
+				"--urls",
+				"http://0.0.0.0:5000;https://0.0.0.0:5001",
 			},
 			components = {
 				-- { "restart_on_save", paths = { workspaceRoot } },

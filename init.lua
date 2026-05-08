@@ -18,3 +18,4 @@ require("config.autocmds").setup() -- Autocommands
 require("config.shell").setup() -- Platform-specific shell
 require("config.colorscheme").setup() -- Appearance
 require("config.ui").setup() -- UI overrides
+require("hover").setup() -- Unified K (LSP + diagnostics + DAP handoff)
