@@ -15,17 +15,6 @@ function M.setup()
 		desc = "Python indentation settings",
 	})
 
-	-- C# settings
-	vim.api.nvim_create_autocmd("FileType", {
-		group = augroup,
-		pattern = "cs",
-		callback = function()
-			vim.opt_local.expandtab = true
-			vim.opt_local.softtabstop = 4
-		end,
-		desc = "C# indentation settings",
-	})
-
 	-- Source .nvim.lua on directory change
 	vim.api.nvim_create_autocmd("DirChanged", {
 		group = augroup,
