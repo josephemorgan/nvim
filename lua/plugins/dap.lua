@@ -77,6 +77,7 @@ return {
 							"**/node_modules/**",
 						},
 						userDataDir = true,
+						runtimeArgs = { "--remote-debugging-port=9222" },
 					},
 					{
 						type = "pwa-chrome",

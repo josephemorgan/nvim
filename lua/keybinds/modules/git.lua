@@ -4,7 +4,7 @@ return {
 	{
 		"<leader>gg",
 		function()
-			require("neogit").open()
+			require("neogit").open({ kind = "split_above_all" })
 		end,
 		desc = "Open neo[g]it",
 	},
@@ -21,13 +21,12 @@ return {
 		end,
 		desc = "Open current file [h]istory",
 	},
-
-	{
-		"<leader>gl",
-		function()
-			snacks.git.blame_line()
-		end,
-		desc = "[b]lame file",
-	},
+	-- {
+	-- 	"<leader>gl",
+	-- 	function()
+	-- 		snacks.git.blame_line()
+	-- 	end,
+	-- 	desc = "[b]lame file",
+	-- },
 	{ "<leader>gb", ":Blame<cr>", desc = "[b]lame file" },
 }
