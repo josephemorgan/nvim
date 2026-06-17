@@ -1,6 +1,6 @@
 return {
 	"saghen/blink.cmp",
-	dependencies = { "rafamadriz/friendly-snippets" },
+	-- dependencies = { "rafamadriz/friendly-snippets" },
 	version = "*",
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
@@ -20,16 +20,15 @@ return {
 			default = function()
 				local success, node = pcall(vim.treesitter.get_node)
 
-				if
-					success
-					and node
-					and vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type())
-				then
+				if success and node and vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type()) then
 					return { "buffer", "codecompanion" }
 				else
-					return { "lazydev", "lsp", "path", "snippets", "codecompanion" }
+					return { "lazydev", "lsp", "path", "codecompanion" }
 				end
 			end,
+			per_filetype = {
+				sql = { "dadbod", "snippets", "buffer" },
+			},
 			providers = {
 				lazydev = {
 					name = "LazyDev",
@@ -37,19 +36,20 @@ return {
 					-- make lazydev completions top priority (see `:h blink.cmp`)
 					score_offset = 100,
 				},
-				snippets = {
-					opts = {
-						friendly_snippets = true,
-						extended_filetypes = {
-							dart = { "flutter" },
-							javascript = { "angular" },
-							htmlangular = { "angular" },
-						},
-					},
-					should_show_items = function(ctx)
-						return ctx.trigger.initial_kind ~= "trigger_character"
-					end,
-				},
+				dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+				-- snippets = {
+				-- 	opts = {
+				-- 		friendly_snippets = true,
+				-- 		extended_filetypes = {
+				-- 			dart = { "flutter" },
+				-- 			javascript = { "angular" },
+				-- 			htmlangular = { "angular" },
+				-- 		},
+				-- 	},
+				-- 	should_show_items = function(ctx)
+				-- 		return ctx.trigger.initial_kind ~= "trigger_character"
+				-- 	end,
+				-- },
 			},
 		},
 		signature = {
