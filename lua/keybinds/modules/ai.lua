@@ -1,3 +1,10 @@
+-- Module-local state for tier-2 quick-edit (regenerate support)
+local _last_inline = nil
+
+local function _run_inline(prompt, range_prefix)
+	vim.cmd((range_prefix or "") .. "CodeCompanion " .. prompt)
+end
+
 ---@type wk.Spec
 return {
 	"<leader>c",
@@ -87,5 +94,46 @@ return {
 		"<cmd>CodeCompanionChat Add<cr>",
 		desc = "[a]dd to chat",
 		mode = { "v" },
+	},
+	{
+		"<leader>ci",
+		function()
+			vim.ui.input({ prompt = "Quick edit: " }, function(input)
+				if not input or input == "" then
+					return
+				end
+				_last_inline = { prompt = input }
+				_run_inline(input)
+			end)
+		end,
+		desc = "[i]nline edit at cursor",
+	},
+	{
+		"<leader>ci",
+		function()
+			-- Capture marks now — visual selection exits before ui.input callback fires
+			local range = "'<,'>"
+			vim.ui.input({ prompt = "Quick edit selection: " }, function(input)
+				if not input or input == "" then
+					return
+				end
+				_last_inline = { prompt = input, range = range }
+				_run_inline(input, range)
+			end)
+		end,
+		mode = { "v" },
+		desc = "[i]nline edit selection",
+	},
+	{
+		"<leader>cr",
+		function()
+			if not _last_inline then
+				vim.notify("No previous inline edit to regenerate", vim.log.levels.WARN)
+				return
+			end
+			_run_inline(_last_inline.prompt, _last_inline.range)
+		end,
+		mode = { "n", "v" },
+		desc = "[r]egenerate last inline edit",
 	},
 }

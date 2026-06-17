@@ -9,6 +9,13 @@ return {
 		interactions = {
 			chat = {
 				auto_scroll = false,
+				adapter = "anthropic",
+			},
+			inline = {
+				adapter = {
+					name = "anthropic",
+					model = "claude-haiku-4-5",
+				},
 			},
 			cli = {
 				agent = "claude_code",
@@ -52,6 +59,14 @@ return {
 				end,
 			},
 			http = {
+				anthropic = function()
+					local key = os.getenv("ANTHROPIC_API_KEY_PERSONAL") or os.getenv("ANTHROPIC_API_KEY")
+					return require("codecompanion.adapters").extend("anthropic", {
+						env = {
+							api_key = key,
+						},
+					})
+				end,
 				tavily = function()
 					local key = os.getenv("TAVILY_API_KEY")
 
