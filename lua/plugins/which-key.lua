@@ -155,6 +155,10 @@ return {
 		},
 		debug = false, -- enable wk.log in the current directory
 	},
+	config = function(_, opts)
+		require("which-key").setup(opts)
+		require("keybinds.lang").setup()
+	end,
 	keys = {
 		{
 			"<leader>?",

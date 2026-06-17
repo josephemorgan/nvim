@@ -87,13 +87,6 @@ return {
 	},
 	{ "<leader>dv", "<cmd>DapViewToggle<cr>", desc = "DAP [v]iew" },
 	{
-		"<leader>df",
-		function()
-			require("telescope").extensions.flutter.commands()
-		end,
-		desc = "[f]lutter commands",
-	},
-	{
 		"<leader>dw",
 		function()
 			vim.cmd("DapViewWatch")

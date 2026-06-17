@@ -14,9 +14,9 @@ return {
 	require("keybinds.modules.trouble"),
 	require("keybinds.modules.git"),
 	require("keybinds.modules.buffers"),
-	require("keybinds.modules.angular"),
 	require("keybinds.modules.search"),
 	require("keybinds.modules.tasks"),
 	require("keybinds.modules.lsp"),
 	require("keybinds.modules.dap"),
+	require("keybinds.modules.db"),
 }
