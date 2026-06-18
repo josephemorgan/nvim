@@ -20,6 +20,10 @@ return {
 				},
 				opts = { lsp = { auto_attach = true } },
 			},
+			{
+				"enochchau/nvim-pretty-ts-errors",
+				build = "npm install",
+			},
 		},
 		opts = {
 			filewatching = "roslyn",
@@ -48,9 +52,11 @@ return {
 							local ok, content = pcall(vim.fn.readblob, pkg)
 							if ok and content then
 								local json = vim.json.decode(content) or {}
-								angular_core_version = ((json.dependencies or {})["@angular/core"] or (
-									json.devDependencies or {}
-								)["@angular/core"] or ""):match("%d+%.%d+%.%d+") or ""
+								angular_core_version = (
+									(json.dependencies or {})["@angular/core"]
+									or (json.devDependencies or {})["@angular/core"]
+									or ""
+								):match("%d+%.%d+%.%d+") or ""
 							end
 						end
 
@@ -172,23 +178,16 @@ return {
 						interval,
 						interval,
 						vim.schedule_wrap(function()
-							client:request(
-								"signInConfirm",
-								{ userCode = result.userCode },
-								function(confirm_err, confirm_result)
-									if confirm_err then
-										return
-									end
-									if confirm_result and confirm_result.status == "OK" then
-										timer:stop()
-										timer:close()
-										vim.notify(
-											"Copilot: signed in as " .. (confirm_result.user or "unknown"),
-											vim.log.levels.INFO
-										)
-									end
+							client:request("signInConfirm", { userCode = result.userCode }, function(confirm_err, confirm_result)
+								if confirm_err then
+									return
 								end
-							)
+								if confirm_result and confirm_result.status == "OK" then
+									timer:stop()
+									timer:close()
+									vim.notify("Copilot: signed in as " .. (confirm_result.user or "unknown"), vim.log.levels.INFO)
+								end
+							end)
 						end)
 					)
 				end)
