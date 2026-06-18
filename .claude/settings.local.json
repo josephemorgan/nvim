@@ -15,7 +15,10 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(cmd.exe /c type \"C:\\\\Users\\\\MorganJ\\\\AppData\\\\Local\\\\nvim-data\\\\mason\\\\packages\\\\js-debug-adapter\\\\js-debug-adapter.cmd\" 2>/dev/null)",
       "mcp__context7__resolve-library-id",
-      "mcp__context7__query-docs"
+      "mcp__context7__query-docs",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "Skill(claude-api)",
+      "WebFetch(domain:pawelgrzybek.com)"
     ],
     "additionalDirectories": [
       "X:\\dev\\nvim\\session_picker"
