@@ -76,7 +76,7 @@ return {
 							"<node_internals>/**",
 							"**/node_modules/**",
 						},
-						userDataDir = true,
+						userDataDir = "${workspaceFolder}/.chrome",
 						runtimeArgs = { "--remote-debugging-port=9222" },
 					},
 					{

@@ -101,4 +101,12 @@ return {
 		end,
 		desc = "Show [i]mplementations",
 	},
+	{
+		"<leader>lw",
+		function()
+			require("nvim-emmet").wrap_with_abbreviation()
+		end,
+		mode = { "n", "v" },
+		desc = "[w]rap with abbreviation (Emmet)",
+	},
 }

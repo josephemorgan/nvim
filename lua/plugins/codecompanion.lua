@@ -10,6 +10,7 @@ return {
 			chat = {
 				auto_scroll = false,
 				adapter = "anthropic",
+				model = "claude-sonnet-5",
 			},
 			inline = {
 				adapter = {

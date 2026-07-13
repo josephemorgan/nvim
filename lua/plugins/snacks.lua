@@ -15,7 +15,7 @@ return {
 				diagnostics = true,
 			},
 		},
-		input = { enabled = false },
+		input = { enabled = true },
 		quickfile = { enabled = true },
 		scope = { enabled = true },
 		scroll = { enabled = false },
