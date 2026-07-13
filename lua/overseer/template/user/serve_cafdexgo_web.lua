@@ -1,9 +1,12 @@
 return {
 	name = "Serve CAFDExGo Web",
 	builder = function()
+		local root = vim.uv.os_uname().sysname:match("Windows") and "X:/dev/cafdexgo-web/"
+			or vim.fn.expand("~/dev/iti/cafdexgo_web/")
+
 		return {
-			cwd = "X:/dev/cafdexgo-web/",
 			cmd = { "yarn" },
+			cwd = root,
 			args = {
 				"start",
 			},
