@@ -32,6 +32,13 @@ return {
 		desc = "[r]ename",
 	},
 	{
+		"<leader>lg",
+		function()
+			picker_config.diagnostics()
+		end,
+		desc = "[n]ext Diagnostic",
+	},
+	{
 		"<leader>ln",
 		function()
 			vim.diagnostic.jump({ count = 1, float = true })

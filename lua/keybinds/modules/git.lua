@@ -1,3 +1,5 @@
+local picker_config = require("keybinds.modules.picker_config")
+
 return {
 	"<leader>g",
 	group = "[g]it",
@@ -12,6 +14,13 @@ return {
 	{
 		"<leader>gh",
 		function()
+			picker_config.git_history()
+		end,
+		desc = "Preview File [h]istory",
+	},
+	{
+		"<leader>gH",
+		function()
 			local filename = vim.api.nvim_buf_get_name(0)
 			if filename ~= "" then
 				vim.cmd("DiffviewFileHistory " .. vim.fn.fnameescape(filename))
@@ -19,14 +28,14 @@ return {
 				vim.cmd("DiffviewFileHistory")
 			end
 		end,
-		desc = "Open current file [h]istory",
+		desc = "Open File [H]istory",
 	},
-	-- {
-	-- 	"<leader>gl",
-	-- 	function()
-	-- 		snacks.git.blame_line()
-	-- 	end,
-	-- 	desc = "[b]lame file",
-	-- },
+	{
+		"<leader>gl",
+		function()
+			picker_config.git_line_history()
+		end,
+		desc = "[b]lame file",
+	},
 	{ "<leader>gb", ":Blame<cr>", desc = "[b]lame file" },
 }

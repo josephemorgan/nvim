@@ -2,6 +2,33 @@ local t_builtin = require("telescope.builtin")
 local t_themes = require("telescope.themes")
 local snacks = require("snacks")
 
+---@type snacks.picker.layout.Config
+local quick_layout_opts = {
+	layout = {
+		preset = "select",
+	},
+}
+
+---@type snacks.picker.layout.Config
+local detail_layout_opts = {
+	layout = {
+		layout = {
+			backdrop = false,
+			width = 0.5,
+			min_width = 80,
+			height = 0.6,
+			min_height = 30,
+			box = "vertical",
+			border = true,
+			title = "{title} {live} {flags}",
+			title_pos = "center",
+			{ win = "input", height = 1, border = "bottom" },
+			{ win = "list", border = "none" },
+			{ win = "preview", title = "{preview}", height = 0.6, border = "top" },
+		},
+	},
+}
+
 ---@class PickerConfig
 ---@field default fun()
 ---@field buffers fun()
@@ -20,6 +47,7 @@ local snacks = require("snacks")
 ---@field help fun()
 ---@field projects fun()
 ---@field git_history fun()
+---@field git_line_history fun()
 ---@field resume fun()
 ---@field colorscheme fun()
 ---@field marks fun()
@@ -28,55 +56,58 @@ local snacks = require("snacks")
 ---@type PickerConfig
 local snacks_config = {
 	default = function()
-		snacks.picker.smart()
+		snacks.picker.smart(quick_layout_opts)
 	end,
 	buffers = function()
-		snacks.picker.buffers()
+		snacks.picker.buffers(quick_layout_opts)
 	end,
 	lsp_symbols = function()
-		snacks.picker.lsp_symbols()
+		snacks.picker.lsp_symbols(detail_layout_opts)
 	end,
 	workspace_lsp_symbols = function()
-		snacks.picker.lsp_workspace_symbols()
+		snacks.picker.lsp_workspace_symbols(detail_layout_opts)
 	end,
 	lsp_references = function()
-		snacks.picker.lsp_references()
+		snacks.picker.lsp_references(detail_layout_opts)
 	end,
 	lsp_definitions = function()
-		snacks.picker.lsp_definitions()
+		snacks.picker.lsp_definitions(detail_layout_opts)
 	end,
 	lsp_type_definitions = function()
-		snacks.picker.lsp_type_definitions()
+		snacks.picker.lsp_type_definitions(detail_layout_opts)
 	end,
 	lsp_implementations = function()
-		snacks.picker.lsp_implementations()
+		snacks.picker.lsp_implementations(detail_layout_opts)
 	end,
 	diagnostics = function()
-		snacks.picker.diagnostics()
+		snacks.picker.diagnostics(quick_layout_opts)
 	end,
 	pickers = function()
-		snacks.picker()
+		snacks.picker(quick_layout_opts)
 	end,
 	lines = function()
-		snacks.picker.lines()
+		snacks.picker.lines(quick_layout_opts)
 	end,
 	grep = function()
-		snacks.picker.grep()
+		snacks.picker.grep(detail_layout_opts)
 	end,
 	registers = function()
-		snacks.picker.registers()
+		snacks.picker.registers(detail_layout_opts)
 	end,
 	command_history = function()
-		snacks.picker.command_history()
+		snacks.picker.command_history(quick_layout_opts)
 	end,
 	help = function()
-		snacks.picker.help()
+		snacks.picker.help(quick_layout_opts)
 	end,
 	projects = function()
-		snacks.picker.projects()
+		require("spacewalk").pick("snacks")
 	end,
 	git_history = function()
-		snacks.picker.git_log_file()
+		snacks.picker.git_log_file(detail_layout_opts)
+	end,
+	git_line_history = function()
+		snacks.picker.git_log_line(detail_layout_opts)
 	end,
 	resume = function()
 		snacks.picker.resume()
@@ -88,7 +119,11 @@ local snacks_config = {
 		snacks.picker.marks()
 	end,
 	explorer = function()
-		snacks.picker.explorer()
+		require("telescope").extensions.file_browser.file_browser({
+			path = "%:p:h",
+			select_buffer = true,
+			grouped = true,
+		})
 	end,
 }
 
@@ -145,6 +180,7 @@ local telescope_config = {
 	git_history = function()
 		t_builtin.git_bcommits(t_themes.get_ivy())
 	end,
+	git_line_history = function() end,
 	resume = function()
 		t_builtin.resume(t_themes.get_ivy())
 	end,
@@ -164,4 +200,4 @@ local telescope_config = {
 }
 
 ---@type PickerConfig
-return telescope_config
+return snacks_config

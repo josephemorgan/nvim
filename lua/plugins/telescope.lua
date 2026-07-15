@@ -1,6 +1,3 @@
-local dev_dir = os.getenv("DEV_DIR")
-local novim_config_dir = vim.fn.stdpath("config")
-
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -9,7 +6,7 @@ return {
 		},
 		opts = {
 			defaults = {
-				path_display = function(opts, path)
+				path_display = function(_, path)
 					return path,
 						{
 							{
@@ -30,12 +27,10 @@ return {
 				buffers = {
 					mappings = {
 						i = {
-							["<c-d>"] = require("telescope.actions").delete_buffer
-								+ require("telescope.actions").move_to_top,
+							["<c-d>"] = require("telescope.actions").delete_buffer + require("telescope.actions").move_to_top,
 						},
 						n = {
-							["d"] = require("telescope.actions").delete_buffer
-								+ require("telescope.actions").move_to_top,
+							["d"] = require("telescope.actions").delete_buffer + require("telescope.actions").move_to_top,
 						},
 					},
 				},
@@ -48,14 +43,47 @@ return {
 				},
 				project = {
 					base_dirs = {
-						dev_dir,
-						novim_config_dir,
+						os.getenv("DEV_DIR"),
+						vim.fn.stdpath("config"),
 					},
+				},
+				["ui-select"] = {
+					require("telescope.themes").get_dropdown({
+						previewer = false,
+					}),
 				},
 			},
 			colorscheme = {
 				enable_preview = true,
 			},
 		},
+	},
+	{
+		"nvim-telescope/telescope-project.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		config = function()
+			require("telescope").load_extension("project")
+		end,
+	},
+	{
+		"nvim-telescope/telescope-dap.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim", "mfussenegger/nvim-dap" },
+		config = function()
+			require("telescope").load_extension("dap")
+		end,
+	},
+	{
+		"nvim-telescope/telescope-file-browser.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+		config = function()
+			require("telescope").load_extension("file_browser")
+		end,
+	},
+	{
+		"nvim-telescope/telescope-ui-select.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		config = function()
+			require("telescope").load_extension("ui-select")
+		end,
 	},
 }
