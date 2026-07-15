@@ -19,4 +19,5 @@ return {
 	require("keybinds.modules.lsp"),
 	require("keybinds.modules.dap"),
 	require("keybinds.modules.db"),
+	require("keybinds.modules.terminal"),
 }
