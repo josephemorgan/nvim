@@ -12,6 +12,29 @@ return {
 		local dap = require("dap")
 		dap.defaults.fallback.switchbuf = "useopen,uselast"
 
+		local is_wsl = vim.fn.has("wsl") == 1
+		local chrome_executable = is_wsl and "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe" or nil
+		-- In WSL, pass --user-data-dir directly as a runtime arg with a Windows path
+		-- so js-debug never tries to resolve it as a Linux path (which would make it
+		-- relative to the project CWD and create a garbage directory there).
+		local chrome_user_data_dir
+		local chrome_runtime_args
+		if is_wsl then
+			local win_user = vim.fn.trim(
+				vim.fn.system(
+					"/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -NoProfile -NonInteractive -Command '$env:USERNAME'"
+				)
+			)
+			chrome_user_data_dir = false
+			chrome_runtime_args = {
+				"--remote-debugging-port=9222",
+				"--user-data-dir=C:\\Users\\" .. win_user .. "\\AppData\\Local\\Temp\\chrome-debug-profile",
+			}
+		else
+			chrome_user_data_dir = "${workspaceFolder}/.chrome"
+			chrome_runtime_args = { "--remote-debugging-port=9222" }
+		end
+
 		local adapters = {
 			dart = {
 				type = "executable",
@@ -76,8 +99,9 @@ return {
 							"<node_internals>/**",
 							"**/node_modules/**",
 						},
-						userDataDir = "${workspaceFolder}/.chrome",
-						runtimeArgs = { "--remote-debugging-port=9222" },
+						runtimeExecutable = chrome_executable,
+						userDataDir = chrome_user_data_dir,
+						runtimeArgs = chrome_runtime_args,
 					},
 					{
 						type = "pwa-chrome",

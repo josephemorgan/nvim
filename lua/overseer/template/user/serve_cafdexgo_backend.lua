@@ -1,9 +1,13 @@
 return {
 	name = "Serve CAFDExGo Backend",
 	builder = function()
+		local root = vim.uv.os_uname().sysname:match("Windows") and "X:/dev/cafdexgo-api/"
+			or vim.fn.expand("~/dev/iti/cafdexgo_api/")
+
 		return {
 			cmd = { "dotnet" },
-			cwd = "X:/dev/cafdexgo-api/",
+			-- cwd = "X:/dev/cafdexgo-api/",
+			cwd = root,
 			args = {
 				"watch",
 				"run",
