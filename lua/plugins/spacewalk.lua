@@ -1,4 +1,6 @@
 local picker_config = require("keybinds.modules.picker_config")
+local manual_dirs = vim.uv.os_uname().sysname:match("Windows") and { vim.fn.stdpath("config"), "X:/dev/cafdexgo-db/" }
+	or { vim.fn.stdpath("config") }
 
 return {
 	"josephemorgan/spacewalk.nvim",
@@ -7,7 +9,7 @@ return {
 	},
 	opts = {
 		roots = { os.getenv("DEV_DIR") }, -- scanned recursively for .git
-		manual = { vim.fn.stdpath("config") }, -- always listed, no scan needed
+		manual = manual_dirs, -- always listed, no scan needed
 		actions = {
 			-- <C-p>: pick files in the chosen project
 			["<C-p>"] = {

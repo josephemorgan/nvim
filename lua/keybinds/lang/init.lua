@@ -30,7 +30,13 @@ local function apply(buf)
 	local ft = vim.bo[buf].filetype
 	for _, lang in ipairs(registry) do
 		if vim.tbl_contains(lang.filetypes, ft) and (not lang.detect or lang.detect(buf)) then
-			require("which-key").add(lang.spec, { buffer = buf })
+			-- deepcopy: which-key mutates the spec (and its children) in place during
+			-- parse, and `require` caches the module table across calls. `buffer` lives
+			-- inside the spec (it's an inheriting field, so it cascades to children) --
+			-- passing it as add()'s 2nd arg is silently ignored, leaking global keymaps.
+			local spec = vim.deepcopy(lang.spec)
+			spec.buffer = buf
+			require("which-key").add(spec)
 		end
 	end
 end
