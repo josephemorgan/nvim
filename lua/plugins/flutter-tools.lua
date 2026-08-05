@@ -34,11 +34,21 @@ return {
 		lsp = {
 			settings = {
 				lineLength = 120,
-				analysisExcludedFolders = { pubCacheDir },
+				-- Relative entries resolve against each workspace folder, so build output
+				-- stays out of analysis in every Flutter project without hardcoding paths.
+				analysisExcludedFolders = { pubCacheDir, "build", ".dart_tool" },
 			},
 			capabilities = {
 				textDocument = {
 					formatting = {
+						dynamicRegistration = false,
+					},
+				},
+				workspace = {
+					-- Declining watcher registration keeps nvim from watching the whole
+					-- build tree. Cost: run :LspRestart after changes made outside nvim
+					-- (client regeneration, branch switches).
+					didChangeWatchedFiles = {
 						dynamicRegistration = false,
 					},
 				},

@@ -17,7 +17,9 @@ return {
 			htmlangular = { "prettier" },
 			css = { "prettier" },
 			scss = { "prettier" },
-			dart = { lsp_format = "prefer", async = true },
+			-- `dart format` CLI, not LSP formatting: the analysis server can be mid-relink
+			-- on a large project and block the save for the full timeout.
+			dart = { "dart_format" },
 			cs = { "csharpier" },
 			json = { "fixjson" },
 			nginx = { "nginxfmt" },
