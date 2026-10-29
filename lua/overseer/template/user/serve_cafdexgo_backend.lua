@@ -3,7 +3,7 @@ return {
 	builder = function()
 		return {
 			cmd = { "dotnet" },
-			cwd = vim.uv.os_uname().sysname:match("Windows") and "X:/dev/cafdexgo-api/"
+			cwd = vim.uv.os_uname().sysname:match("Windows") and "X:/dev/cafdexgo-workspace/cafdexgo-api/"
 				or vim.fn.expand("~/dev/cafdexgo-workspace/cafdexgo_api/"),
 			args = {
 				"watch",
