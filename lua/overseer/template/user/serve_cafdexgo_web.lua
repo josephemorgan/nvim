@@ -2,7 +2,8 @@ return {
 	name = "Serve CAFDExGo Web",
 	builder = function()
 		return {
-			cwd = "X:/dev/cafdexgo-web/",
+			cwd = vim.uv.os_uname().sysname:match("Windows") and "X:/dev/cafdexgo-web/"
+				or vim.fn.expand("~/dev/cafdexgo-workspace/cafdexgo_web/"),
 			cmd = { "yarn" },
 			args = {
 				"start",
